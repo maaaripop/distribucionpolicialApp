@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/07/2016 11:48:11 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.pojo.Turno" table="turno" catalog="bdistribucionpolicial" optimistic-lock="version">
+        <id name="idTurno" type="int">
+            <column name="idTurno" />
+            <generator class="assigned" />
+        </id>
+        <property name="horaInicio" type="string">
+            <column name="horaInicio" length="45" />
+        </property>
+        <property name="horaFin" type="string">
+            <column name="horaFin" length="45" />
+        </property>
+        <set name="delitos" table="delito" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idTurno" not-null="true" />
+            </key>
+            <one-to-many class="model.pojo.Delito" />
+        </set>
+    </class>
+</hibernate-mapping>
