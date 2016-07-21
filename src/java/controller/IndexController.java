@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package controller;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import model.dao.IDelito;
 import model.dao.ITipodelito;
 import model.dao.ITurno;
@@ -11,24 +14,24 @@ import model.daoImpl.DelitoImpl;
 import model.daoImpl.TipodelitoImpl;
 import model.daoImpl.TurnoImpl;
 import model.pojo.Delito;
-import model.pojo.Tipodelito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.*;
+
 /**
  *
  * @author Mariella
  */
 @Controller
 public class IndexController {
+
     ITipodelito tipodelitoService = TipodelitoImpl.getInstance();
     IDelito delitoService = DelitoImpl.getInstance();
     ITurno turnoService = TurnoImpl.getInstance();
-     
+
     @RequestMapping(value = "/mapas", method = RequestMethod.GET)
     public String cargar(Model model) {
         model.addAttribute("delito", new Delito());
@@ -53,7 +56,7 @@ public class IndexController {
         
         return "delito";
     }
-    
+
     @RequestMapping(value = "/mapas/agregarDelito", method = RequestMethod.POST)
     public String agregarDelito(@ModelAttribute("delito") Delito td) {
 
@@ -61,6 +64,7 @@ public class IndexController {
         return "redirect:/mapas";
 
     }
+
     
     public static double distanciaCoord(double lat1, double lng1, double lat2, double lng2) {  
         //double radioTierra = 3958.75;//en millas  
@@ -92,4 +96,14 @@ public class IndexController {
         return distancia;  
     } 
     
+
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+
+    }
+
 }
