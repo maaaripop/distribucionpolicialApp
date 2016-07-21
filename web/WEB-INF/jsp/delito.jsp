@@ -28,16 +28,7 @@
                 delito.push('<c:out value="${delito.fecha}"/>'.substring(0,10));
                 lstDelitos.push(delito);
              </c:forEach>
-        var j;
-        
-        function initialize() {
-              var mapProp = {
-                center:orig,
-                zoom:14,
-                mapTypeId:google.maps.MapTypeId.ROADMAP
-              };
-              var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-              /*var rect= new google.maps.Rectangle({
+         /*var rect= new google.maps.Rectangle({
                  map: map,
                  bounds: new google.maps.LatLngBounds(
                     orig,
@@ -65,20 +56,8 @@
                   
               })
               */
-              var marker,i; 
-                <c:forEach  items="${delitos}" var="delito" >
-
-                    var delito = [];
-                    delito.push(<c:out value="${delito.idDelito}"/>);
-                    delito.push(<c:out value="${delito.latitud}"/>);
-                    delito.push(<c:out value="${delito.longitud}"/>);
-                    delito.push('<c:out value="${delito.tipodelito.nombre}"/>');
-                    delito.push('<c:out value="${delito.turno.horaInicio}"/>'.concat("- ", '<c:out value="${delito.turno.horaFin}"/>'));
-                    delito.push('<c:out value="${delito.fecha}"/>'.substring(0, 10));
-                    lstDelitos.push(delito);
-                 </c:forEach>
-            var j;
-
+              
+            
             function initialize() {
                 var mapProp = {
                     center: orig,
@@ -109,7 +88,7 @@
                        alert("V: " +  <c:out value="${cantV}"/> + " H: "  + <c:out value="${cantH}"/> );
                  });  
 
-                }
+                
 
                 google.maps.event.addListener(map, 'click', function () {
                     $('#crimeNew').modal('show');
