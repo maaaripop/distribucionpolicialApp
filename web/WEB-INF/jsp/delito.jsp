@@ -36,6 +36,34 @@
                 mapTypeId:google.maps.MapTypeId.ROADMAP
               };
               var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+              /*var rect= new google.maps.Rectangle({
+                 map: map,
+                 bounds: new google.maps.LatLngBounds(
+                    orig,
+                    new google.maps.LatLng(-12,-77)),
+                 editable: true,
+                 draggable:true      
+                  
+                  
+              });
+              
+              google.maps.event.addListener(rect,"bounds_changed",function(){
+                  
+                    var bounds =rect.getBounds();
+                    var NE = bounds.getNorthEast();
+                    var SW = bounds.getSouthWest();
+                    // North West
+                    var NW = new google.maps.LatLng(NE.lat(),SW.lng());
+                    // South East
+                    var SE = new google.maps.LatLng(SW.lat(),NE.lng());
+
+                    document.getElementById("NE").value=NE;
+                    document.getElementById("SW").value=SW;
+                    document.getElementById("NW").value=NW;
+                    document.getElementById("SE").value=SE;
+                  
+              })
+              */
               var marker,i; 
                  for (i = 0; i < lstDelitos.length; i++) {  
                     marker = new google.maps.Marker({
@@ -53,7 +81,8 @@
                   }
                 
                 google.maps.event.addListener(map, 'click', function() {
-                        $('#crimeNew').modal('show');
+                       // $('#crimeNew').modal('show');
+                       alert("V: " +  <c:out value="${cantV}"/> + " H: "  + <c:out value="${cantH}"/> );
                  });  
 
             }
@@ -67,7 +96,12 @@
     <body>
         <div class="container">
         <div id="googleMap" style="width:500px;height:380px;"></div>
-        
+        <!-- 
+        <input type="text" id="NE" width="500px" />
+        <input type="text" id="SW" width="500px" />
+        <input type="text" id="NW" width="500px" />
+        <input type="text" id="SE" width="500px" />
+         --> 
         
        <!-- Modal delito ver --> 
         <div class="modal fade" id="crimeView" role="dialog">
