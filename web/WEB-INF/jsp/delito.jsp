@@ -66,7 +66,7 @@
               })
               */
               var marker,i; 
-                 for (i = 0; i < lstDelitos.length; i++) {  
+                <c:forEach  items="${delitos}" var="delito" >
 
                     var delito = [];
                     delito.push(<c:out value="${delito.idDelito}"/>);
@@ -76,7 +76,7 @@
                     delito.push('<c:out value="${delito.turno.horaInicio}"/>'.concat("- ", '<c:out value="${delito.turno.horaFin}"/>'));
                     delito.push('<c:out value="${delito.fecha}"/>'.substring(0, 10));
                     lstDelitos.push(delito);
-                }
+                 </c:forEach>
             var j;
 
             function initialize() {
@@ -234,7 +234,7 @@
                                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Turno:</label>
                                         <div class="col-md-3 col-sm-3">
                                             <form:select path="turno.idTurno">
- x                                               <form:option value="NONE" label="--- Seleccione ---"/>                           
+                                                <form:option value="NONE" label="--- Seleccione ---"/>                           
                                                 <c:forEach var="turno" items="${turnoLst}">
                                                     <form:option value="${turno.getIdTurno()}" label="${turno.getHoraInicio()}"/>
                                                 </c:forEach>
