@@ -88,12 +88,6 @@
                        alert("V: " +  <c:out value="${cantV}"/> + " H: "  + <c:out value="${cantH}"/> );
                  });  
 
-                
-
-                google.maps.event.addListener(map, 'click', function () {
-                    $('#crimeNew').modal('show');
-                });
-
 
             }
             google.maps.event.addDomListener(window, 'load', initialize);
