@@ -7,9 +7,9 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3307/bdistribucionpolicial?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">root</property>
-    <mapping resource="model/pojo/Prueba.hbm.xml"/>
-    <mapping resource="model/pojo/Turno.hbm.xml"/>
-    <mapping resource="model/pojo/Tipodelito.hbm.xml"/>
     <mapping resource="model/pojo/Delito.hbm.xml"/>
+    <mapping resource="model/pojo/Prueba.hbm.xml"/>
+    <mapping resource="model/pojo/Tipodelito.hbm.xml"/>
+    <mapping resource="model/pojo/Turno.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

@@ -64,7 +64,7 @@ public class IndexController {
 
     @RequestMapping(value = "/delitos/nuevo", method = RequestMethod.POST)
     public String agregarDelito(@ModelAttribute("delito") Delito td) {
-
+        // no debe de permitir ingresar registros fuera del area de lima metropolitana
         delitoService.save(td);
         return "redirect:/delitos";
 

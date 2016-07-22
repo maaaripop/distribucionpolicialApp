@@ -41,7 +41,7 @@ public class MapaController {
         double[] SW={-12.277709407228006,-77.18620922875971};
         double[] NW={-11.805910334098213,-77.18620922875971};
         double[] SE={-12.277709407228006,-76.75915908813477};
-        mapa= new Mapa(NW,SW,NW,SE);
+        mapa= new Mapa(NE,SW,NW,SE);
         
 //        double NELat=-11.805910334098213;
 //        double NELong=-76.75915908813477;

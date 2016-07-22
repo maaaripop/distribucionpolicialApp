@@ -17,7 +17,9 @@ public class Mapa {
     public double[] SE;
     public int cantV;
     public int cantH;
+    public double [][][] latLng;
     public Mapa(double [] ne, double [] sw, double [] nw, double []se){
+       
         NE=ne;
         SW=sw;
         NW=nw;
@@ -73,21 +75,24 @@ public class Mapa {
         double latOrig= NW[0];
         double lngOrig= NW[1];
         
-        double [][][] latLng  = new double[cantH+1][cantV+1][3];
+        double [][][] coordenadas  = new double[cantH+1][cantV+1][4];
         latLng[0][0][0]=latOrig;
         latLng[0][0][1]=lngOrig;
         latLng[0][0][2]=0; // no es vigilado
+        latLng[0][0][3]=0; // cant delitos en ese cuadrado
         for(int j=1;j<cantH;j++){
             double [] unidad=latLngDistancia(latLng[j-1][0][0],latLng[j-1][0][1],distancia,180.0);
             latLng[j][0][0]=unidad[0];
             latLng[j][0][1]=unidad[1];
             latLng[j][0][2]=0;
+            latLng[j][0][3]=0;
         }
         for(int i=1;i<cantV;i++){
             double [] unidad=latLngDistancia(latLng[0][i-1][0],latLng[0][i-1][1],distancia,90.0);
             latLng[0][i][0]=unidad[0];
             latLng[0][i][1]=unidad[1];
-            latLng[0][i][2]=0;
+            latLng[0][i][2]=0; // no es vigilado
+            latLng[0][i][3]=0;// cant delitos en ese cuadrado
         }
         for(int j=1;j<cantH;j++){
             for(int i=1;i<cantV;i++){
@@ -95,10 +100,11 @@ public class Mapa {
                 latLng[j][i][0]=unidad[0];
                 latLng[j][i][1]=unidad[1];
                 latLng[j][i][2]=0; // no es vigilado
+                latLng[j][0][3]=0; // cant delitos en ese cuadrado
             }
         }
-        
-        return latLng;
+        latLng=coordenadas;
+        return coordenadas;
     }
 
 }
