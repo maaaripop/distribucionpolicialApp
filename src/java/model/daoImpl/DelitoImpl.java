@@ -64,7 +64,7 @@ public class DelitoImpl implements IDelito{
         Session session = null;
         Transaction tx=null;
         try {
-            
+           
             session = HibernateUtil.getSessionFactory().openSession();
             tx=session.beginTransaction();
             session.save(td);

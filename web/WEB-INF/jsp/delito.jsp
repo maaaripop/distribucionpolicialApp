@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Welcome to Spring Web MVC project</title>
+        <title>Mapa de delitos</title>
 
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAITDKVsmqWFfcBXcEszV0ZMkCj9tJTbns"></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -28,17 +28,8 @@
                 delito.push('<c:out value="${delito.fecha}"/>'.substring(0,10));
                 lstDelitos.push(delito);
              </c:forEach>
-         /*var rect= new google.maps.Rectangle({
-                 map: map,
-                 bounds: new google.maps.LatLngBounds(
-                    orig,
-                    new google.maps.LatLng(-12,-77)),
-                 editable: true,
-                 draggable:true      
-                  
-                  
-              });
-              
+
+            /*  
               google.maps.event.addListener(rect,"bounds_changed",function(){
                   
                     var bounds =rect.getBounds();
@@ -62,15 +53,19 @@
                 var mapProp = {
                     center: orig,
                     zoom: 14,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    scrollwheel:  false
                 };
                 var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
                 var marker, i;
+                var j;
+                var cantV=parseInt(<c:out value="${cantV}"/>);
+                var cantH=parseInt(<c:out value="${cantH}"/>);
                 for (i = 0; i < lstDelitos.length; i++) {
-
                     marker = new google.maps.Marker({
                         position: new google.maps.LatLng(lstDelitos[i][1], lstDelitos[i][2]),
-                        map: map
+                        map: map,
+                        title: lstDelitos[i][3]
                     });
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
                         return function () {
@@ -83,9 +78,14 @@
 
                   }
                 
-                google.maps.event.addListener(map, 'click', function() {
-                       // $('#crimeNew').modal('show');
-                       alert("V: " +  <c:out value="${cantV}"/> + " H: "  + <c:out value="${cantH}"/> );
+                google.maps.event.addListener(map, 'click', function(event) {
+                            
+                        $("#crimeNew #latitud").val(event.latLng.lat());
+                        $("#crimeNew #longitud").val(event.latLng.lng());
+                        $('#crimeNew').modal('show');
+                        
+                        
+                       
                  });  
 
 
@@ -100,7 +100,14 @@
     <body>
         <div class="container">
 
-        <div id="googleMap" style="width:500px;height:380px;"></div>
+        <h1>Mapa de delitos</h1>
+        
+        
+        <div class="row"> 
+            <div class="col-md-12">
+                <div id="googleMap" style="width:1100px;height:380px;"></div>
+            </div>
+        
         <!-- 
         <input type="text" id="NE" width="500px" />
         <input type="text" id="SW" width="500px" />
@@ -167,14 +174,19 @@
             <!-- Modal delito nuevo -->   
             <div class="modal fade" id="crimeNew" role="dialog">
                 <div class="modal-dialog">
-                    <c:url var="agregarDelito" value="/mapas/agregarDelito" ></c:url>
+                    <c:url var="agregarDelito" value="/delitos/nuevo" ></c:url>
                     <form:form action="${agregarDelito}" commandName="delito">
+                    
+                    
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Nuevo delito</h4>
                             </div>
+                            <form:hidden path="idDelito" />
+                            <form:hidden path="latitud" id="latitud" />
+                            <form:hidden path="longitud" id="longitud" />
                             <div class="modal-body">
                                 <div class="row" style="margin-top: 10px;">
                                     <div class="form-group">
