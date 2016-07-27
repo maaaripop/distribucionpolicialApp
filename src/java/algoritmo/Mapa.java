@@ -18,6 +18,7 @@ public class Mapa {
     public int cantV;
     public int cantH;
     public double [][][] latLng;
+    public double [][] distancias;
     public Mapa(double [] ne, double [] sw, double [] nw, double []se){
        
         NE=ne;
@@ -26,8 +27,9 @@ public class Mapa {
         SE=se;
         cantV=(int)distanciaCoord(nw[0],nw[1],sw[0],sw[1]);
         cantH=(int)distanciaCoord(nw[0],nw[1],ne[0],ne[1]);
+        double [][][] latLng  = new double[cantH+1][cantV+1][2];
+        double [][][][] distancias  = new double[cantH+1][cantV+1][cantH+1][cantV+1];
         
-       
     }
     
     public double[] latlngEsquina(double lat1, double lng1, double distancia){
@@ -74,37 +76,45 @@ public class Mapa {
         //NW[0],NW[1],1.0,(int)distanciaV,(int)distanciaH
         double latOrig= NW[0];
         double lngOrig= NW[1];
-        
-        double [][][] coordenadas  = new double[cantH+1][cantV+1][4];
+        // debo agregar los 10 ultimos meses (por ejemplo)
+        double [][][] coordenadas  = new double[cantH+1][cantV+1][2];
         latLng[0][0][0]=latOrig;
         latLng[0][0][1]=lngOrig;
-        latLng[0][0][2]=0; // no es vigilado
-        latLng[0][0][3]=0; // cant delitos en ese cuadrado
         for(int j=1;j<cantH;j++){
             double [] unidad=latLngDistancia(latLng[j-1][0][0],latLng[j-1][0][1],distancia,180.0);
             latLng[j][0][0]=unidad[0];
             latLng[j][0][1]=unidad[1];
-            latLng[j][0][2]=0;
-            latLng[j][0][3]=0;
         }
         for(int i=1;i<cantV;i++){
             double [] unidad=latLngDistancia(latLng[0][i-1][0],latLng[0][i-1][1],distancia,90.0);
             latLng[0][i][0]=unidad[0];
             latLng[0][i][1]=unidad[1];
-            latLng[0][i][2]=0; // no es vigilado
-            latLng[0][i][3]=0;// cant delitos en ese cuadrado
         }
         for(int j=1;j<cantH;j++){
             for(int i=1;i<cantV;i++){
                 double [] unidad=latlngEsquina(latLng[j-1][i-1][0],latLng[j-1][i-1][1],distancia);
                 latLng[j][i][0]=unidad[0];
                 latLng[j][i][1]=unidad[1];
-                latLng[j][i][2]=0; // no es vigilado
-                latLng[j][0][3]=0; // cant delitos en ese cuadrado
             }
         }
         latLng=coordenadas;
+        calcularDistancias();
         return coordenadas;
+        
+    }
+    public void calcularDistancias(){
+        
+        for(int j=0;j<cantH;j++){
+            for(int i=0;i<cantV;i++){
+                double []coord1=latLng[j][i];
+                for(int k=0;k<cantH;k++){
+                    for(int l=0;l<cantV;l++){
+                        double [] coord2= latLng[k][l];
+                        //distancias[j][i][k][l]=distanciaCoord(coord1[0],coord1[1],coord2[0],coord2[1]);
+                    }
+                }
+            }
+        }
     }
 
 }
