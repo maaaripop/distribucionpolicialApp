@@ -3,19 +3,16 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 01-ago-2016 22:20:50 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.pojo.Delito" table="delito" catalog="bdistribucionpolicial" optimistic-lock="version">
-        <id name="idDelito" type="int">
-            <column name="idDelito" />
+    <class name="model.pojo.Comisaria" table="comisaria" catalog="bdistribucionpolicial" optimistic-lock="version">
+        <id name="idComisaria" type="int">
+            <column name="idComisaria" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="tipodelito" class="model.pojo.Tipodelito" fetch="select">
-            <column name="idTipoDelito" not-null="true" />
+        <many-to-one name="distrito" class="model.pojo.Distrito" fetch="select">
+            <column name="idDistrito" not-null="true" />
         </many-to-one>
-        <many-to-one name="turno" class="model.pojo.Turno" fetch="select">
-            <column name="idTurno" not-null="true" />
-        </many-to-one>
-        <property name="descripcion" type="string">
-            <column name="descripcion" length="45" />
+        <property name="nombre" type="string">
+            <column name="nombre" length="100" />
         </property>
         <property name="latitud" type="java.lang.Double">
             <column name="latitud" precision="22" scale="0" />
@@ -23,8 +20,8 @@
         <property name="longitud" type="java.lang.Double">
             <column name="longitud" precision="22" scale="0" />
         </property>
-        <property name="fecha" type="timestamp">
-            <column name="fecha" length="19" />
+        <property name="cantPatrulla" type="java.lang.Integer">
+            <column name="cantPatrulla" />
         </property>
     </class>
 </hibernate-mapping>

@@ -8,9 +8,11 @@ package controller;
 import algoritmo.Mapa;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import model.dao.IComisaria;
 import model.dao.IDelito;
 import model.dao.ITipodelito;
 import model.dao.ITurno;
+import model.daoImpl.ComisariaImpl;
 import model.daoImpl.DelitoImpl;
 import model.daoImpl.TipodelitoImpl;
 import model.daoImpl.TurnoImpl;
@@ -32,10 +34,12 @@ public class MapaController {
     ITipodelito tipodelitoService = TipodelitoImpl.getInstance();
     IDelito delitoService = DelitoImpl.getInstance();
     ITurno turnoService = TurnoImpl.getInstance();
+    IComisaria comisariaService = ComisariaImpl.getInstance();
     Mapa mapa= null;
     @RequestMapping(value = "/mapa", method = RequestMethod.GET)
     public void cargar(Model model) {
         model.addAttribute("turnoLst", this.turnoService.getAll());
+        model.addAttribute("comisariaLst", this.comisariaService.getAll());
         /*limites de lima metropolitana*/
         double[] NE={-11.805910334098213,-76.75915908813477};
         double[] SW={-12.277709407228006,-77.18620922875971};

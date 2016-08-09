@@ -16,7 +16,16 @@
             var latOrig = -12.117222;
             var lngOrig = -77.020556;
             var orig = new google.maps.LatLng(latOrig, lngOrig);
-            var lstDelitos = [];
+            var lstComisarias = [];
+            <c:forEach  items="${comisariaLst}" var="comisaria" >
+
+                var comisaria=[];
+                comisaria.push(<c:out value="${comisaria.idComisaria}"/>);
+                comisaria.push(<c:out value="${comisaria.latitud}"/>);
+                comisaria.push(<c:out value="${comisaria.longitud}"/>);
+                comisaria.push(<c:out value="${comisaria.nombre}"/>);
+                lstComisarias.push(comisaria);
+             </c:forEach>
 
 
             /*  
@@ -66,7 +75,32 @@
                     </c:forEach>
                 </c:forEach>
                 
+                for (i = 0; i < lstComisarias.length; i++) {
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(lstComisarias[i][1], lstComisarias[i][2]),
+                        map: map,
+                        title:  lstComisarias[i][3],
+                        icon: 'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png'.icon
+                    });
+                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                        return function () {
+                            /*$('#crimeView').modal('show');
+                            $("#crimeView #crime-type").html(lstDelitos[i][3]);
+                            $("#crimeView #turn").html(lstDelitos[i][4]);
+                            $("#crimeView #date").html(lstDelitos[i][5]);
+                            var geocoder = new google.maps.Geocoder();
+                            var yourLocation = new google.maps.LatLng(lstDelitos[i][1], lstDelitos[i][2]);
+                            geocoder.geocode({ 'latLng': yourLocation },(function(results, status){
+                                if (results[0]) {
+                                   // $("#crimeView #comment").html(results[0].formatted_address);
+                                    $("#crimeView #comment").html(results[0].address_components[2].short_name);
+                                }
+                                
+                            }));*/
+                        }
+                    })(marker, i));
 
+                  }    
 
 
             }
@@ -94,7 +128,140 @@
         <input type="text" id="NW" width="500px" />
         <input type="text" id="SE" width="500px" />
          --> 
- 
+             <!-- Modal delito ver --> 
+            <div class="modal fade" id="crimeView" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Delito</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="form-group">
+                                    <div class="col-md-3 col-sm-3"></div>
+                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de delito:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12" id="crime-type">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="form-group">
+                                    <div class="col-md-3 col-sm-3"></div>
+                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12" id="date">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="form-group">
+                                    <div class="col-md-3 col-sm-3"></div>
+                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Turno:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12" id="turn">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="form-group">
+                                    <div class="col-md-3 col-sm-3"></div>
+                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Comentarios:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12" id="comment">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal delito nuevo -->   
+            <div class="modal fade" id="crimeNew" role="dialog">
+                <div class="modal-dialog">
+                    <c:url var="agregarDelito" value="/delitos/nuevo" ></c:url>
+                    <form:form action="${agregarDelito}" commandName="delito">
+                    
+                    
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Nuevo delito</h4>
+                            </div>
+                            <form:hidden path="idDelito" />
+                            <form:hidden path="latitud" id="latitud" />
+                            <form:hidden path="longitud" id="longitud" />
+                            <div class="modal-body">
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-sm-3"></div>
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de delito:</label>
+                                        <div class="col-md-3 col-sm-3">
+                                            <form:select path="tipodelito.idTipoDelito">
+                                                <form:option value="NONE" label="--- Seleccione ---"/>                                                
+                                                <c:forEach var="tipodelito" items="${tipodelitoLst}">
+                                                    <form:option value="${tipodelito.getIdTipoDelito()}" label="${tipodelito.getNombre()}"/>
+                                                </c:forEach>                           
+                                            </form:select>                               
+                                        </div>    
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-sm-3"></div>
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha:</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12" id="date">
+                                            <form:input type="date" path="fecha"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-sm-3"></div>
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Turno:</label>
+                                        <div class="col-md-3 col-sm-3">
+                                            <form:select path="turno.idTurno">
+                                                <form:option value="NONE" label="--- Seleccione ---"/>                           
+                                                <c:forEach var="turno" items="${turnoLst}">
+                                                    <form:option value="${turno.getIdTurno()}" label="${turno.getHoraInicio()}"/>
+                                                </c:forEach>
+                                            </form:select>
+                                        </div>    
+
+                                    </div>
+                                </div>      
+
+
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-sm-3"></div>
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Descripción:</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12" >
+                                            <form:input path="descripcion" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <input type="submit" value="OK">
+                            </div>
+                        </div>
+                    </form:form>
+
+                </div>
+            </div> 
             
            
         </div>

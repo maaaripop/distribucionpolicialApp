@@ -8,6 +8,7 @@ package controller;
 import algoritmo.Mapa;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import model.dao.IDelito;
 import model.dao.ITipodelito;
 import model.dao.ITurno;
@@ -21,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.*;
+import util.LongLatService;
 
 /**
  *
@@ -59,6 +61,13 @@ public class IndexController {
         double latlng[]=latlngEsquina(NWLat,NWLong,1.0);
         model.addAttribute("latFin",latlng[0]);
         model.addAttribute("lngFin",latlng[1]);
+        /*
+        List<Delito> delitos = this.delitoService.getAll();
+        LongLatService longLatService = new LongLatService();
+        for (Delito d : delitos) {
+                longLatService.obtenerDistrito(d.getLatitud(), d.getLongitud());
+            }
+        */
         return "delito";
     }
 

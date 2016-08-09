@@ -3,19 +3,19 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 01-ago-2016 22:20:50 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.pojo.Tipodelito" table="tipodelito" catalog="bdistribucionpolicial" optimistic-lock="version">
-        <id name="idTipoDelito" type="int">
-            <column name="idTipoDelito" />
+    <class name="model.pojo.Distrito" table="distrito" catalog="bdistribucionpolicial" optimistic-lock="version">
+        <id name="idDistrito" type="int">
+            <column name="idDistrito" />
             <generator class="assigned" />
         </id>
         <property name="nombre" type="string">
-            <column name="nombre" length="45" />
+            <column name="nombre" length="100" />
         </property>
-        <set name="delitos" table="delito" inverse="true" lazy="true" fetch="select">
+        <set name="comisarias" table="comisaria" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="idTipoDelito" not-null="true" />
+                <column name="idDistrito" not-null="true" />
             </key>
-            <one-to-many class="model.pojo.Delito" />
+            <one-to-many class="model.pojo.Comisaria" />
         </set>
     </class>
 </hibernate-mapping>

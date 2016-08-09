@@ -18,7 +18,8 @@ public class Mapa {
     public int cantV;
     public int cantH;
     public double [][][] latLng;
-    public double [][] distancias;
+    public double [][][][] distancias;
+    
     public Mapa(double [] ne, double [] sw, double [] nw, double []se){
        
         NE=ne;
@@ -110,7 +111,7 @@ public class Mapa {
                 for(int k=0;k<cantH;k++){
                     for(int l=0;l<cantV;l++){
                         double [] coord2= latLng[k][l];
-                        //distancias[j][i][k][l]=distanciaCoord(coord1[0],coord1[1],coord2[0],coord2[1]);
+                        distancias[j][i][k][l]=distanciaCoord(coord1[0],coord1[1],coord2[0],coord2[1]);
                     }
                 }
             }

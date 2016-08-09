@@ -73,6 +73,15 @@
                             $("#crimeView #crime-type").html(lstDelitos[i][3]);
                             $("#crimeView #turn").html(lstDelitos[i][4]);
                             $("#crimeView #date").html(lstDelitos[i][5]);
+                            var geocoder = new google.maps.Geocoder();
+                            var yourLocation = new google.maps.LatLng(lstDelitos[i][1], lstDelitos[i][2]);
+                            geocoder.geocode({ 'latLng': yourLocation },(function(results, status){
+                                if (results[0]) {
+                                   // $("#crimeView #comment").html(results[0].formatted_address);
+                                   // $("#crimeView #comment").html(results[0].address_components[2].short_name);
+                                }
+                                
+                            }));
                         }
                     })(marker, i));
 
