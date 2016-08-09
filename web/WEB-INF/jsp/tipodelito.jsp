@@ -70,8 +70,8 @@
                 <tr>
                     <td>${tipodelito.idTipoDelito}</td>
                     <td>${tipodelito.nombre}</td>                    
-                    <td><a href="<c:url value='tipodelitos/edit/${tipodelito.idTipoDelito}' />" >Editar</a></td>
-                    <td><a href="<c:url value='tipodelitos/remove/${tipodelito.idTipoDelito}' />" >Eliminar</a></td>
+                    <td><a href="<c:url value='/tipodelitos/edit/${tipodelito.idTipoDelito}' />" >Editar</a></td>
+                    <td><a href="<c:url value='/tipodelitos/remove/${tipodelito.idTipoDelito}' />" >Eliminar</a></td>
                 </tr>
             </c:forEach>
         </table>

@@ -16,12 +16,14 @@ import model.daoImpl.DelitoImpl;
 import model.daoImpl.TipodelitoImpl;
 import model.daoImpl.TurnoImpl;
 import model.pojo.Delito;
+import model.pojo.Tipodelito;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import util.LongLatService;
 
 /**
@@ -78,9 +80,18 @@ public class IndexController {
         return "redirect:/delitos";
 
     }
+    @RequestMapping(value="/delitos/{idTipoDelito}", method = RequestMethod.GET)
+    public @ResponseBody Delito getTipoDelitoJson(@PathVariable("idTipoDelito") int idDelito){
+        Delito td=delitoService.queryById(idDelito);
+        return td;
+    }
     
+    @RequestMapping(value="/tipodelitos/all", method = RequestMethod.GET)
+    public @ResponseBody List<Tipodelito> getTipoDelitoJson(){
+        List<Tipodelito> td=tipodelitoService.getAll();
+        return td;
+    }
     
-
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
