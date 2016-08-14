@@ -105,7 +105,7 @@ public class TurnoImpl implements ITurno {
             session = HibernateUtil.getSessionFactory().openSession();
            
             td = (Turno) session.load(Turno.class, id);            
-            Hibernate.initialize(td.getDelitos());
+            td.setDelitos(null);
             
         } catch (Exception e) {
             e.printStackTrace();

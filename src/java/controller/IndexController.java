@@ -17,6 +17,7 @@ import model.daoImpl.TipodelitoImpl;
 import model.daoImpl.TurnoImpl;
 import model.pojo.Delito;
 import model.pojo.Tipodelito;
+import model.pojo.Turno;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,15 +81,39 @@ public class IndexController {
         return "redirect:/delitos";
 
     }
-    @RequestMapping(value="/delitos/{idTipoDelito}", method = RequestMethod.GET)
-    public @ResponseBody Delito getTipoDelitoJson(@PathVariable("idTipoDelito") int idDelito){
-        Delito td=delitoService.queryById(idDelito);
+    @RequestMapping(value="/tipodelitos/{idTipoDelito}", method = RequestMethod.GET)
+    public @ResponseBody Tipodelito getTipoDelitoJson(@PathVariable("idTipoDelito") int idTipoDelito){
+        Tipodelito td=tipodelitoService.queryById(idTipoDelito);
         return td;
     }
     
     @RequestMapping(value="/tipodelitos/all", method = RequestMethod.GET)
     public @ResponseBody List<Tipodelito> getTipoDelitoJson(){
         List<Tipodelito> td=tipodelitoService.getAll();
+        return td;
+    }
+    
+    @RequestMapping(value="/turnos/{idTurno}", method = RequestMethod.GET)
+    public @ResponseBody Turno getTurnoJson(@PathVariable("idTurno") int idTurno){
+        Turno td=turnoService.queryById(idTurno);
+        return td;
+    }
+    
+    @RequestMapping(value="/turnos/all", method = RequestMethod.GET)
+    public @ResponseBody List<Turno> getTurnoJson(){
+        List<Turno> td=turnoService.getAll();
+        return td;
+    }
+    
+    @RequestMapping(value="/delitos/all", method = RequestMethod.GET)
+    public @ResponseBody List<Delito> getDelitoJson(){
+        List<Delito> td=delitoService.getAll();
+        return td;
+    }
+    
+    @RequestMapping(value="/delitos/{idDelito}", method = RequestMethod.GET)
+    public @ResponseBody Delito getDelitoJson(@PathVariable("idDelito") int idDelito){
+        Delito td=delitoService.queryById(idDelito);
         return td;
     }
     
@@ -164,5 +189,5 @@ public class IndexController {
         
         return latLng;
     }
-
+    
 }

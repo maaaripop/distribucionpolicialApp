@@ -110,7 +110,8 @@ public class DelitoImpl implements IDelito{
             session = HibernateUtil.getSessionFactory().openSession();
            
             td = (Delito) session.load(Delito.class, id);            
-            
+            Hibernate.initialize(td.getTurno());
+            Hibernate.initialize(td.getTipodelito());
             
         } catch (Exception e) {
             e.printStackTrace();

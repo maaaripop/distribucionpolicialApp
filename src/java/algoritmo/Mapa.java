@@ -28,8 +28,8 @@ public class Mapa {
         SE=se;
         cantV=(int)distanciaCoord(nw[0],nw[1],sw[0],sw[1]);
         cantH=(int)distanciaCoord(nw[0],nw[1],ne[0],ne[1]);
-        double [][][] latLng  = new double[cantH+1][cantV+1][2];
-        double [][][][] distancias  = new double[cantH+1][cantV+1][cantH+1][cantV+1];
+        latLng  = new double[cantH+1][cantV+1][2];
+        distancias  = new double[cantH+1][cantV+1][cantH+1][cantV+1];
         
     }
     

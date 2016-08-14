@@ -107,7 +107,7 @@ public class TipodelitoImpl implements ITipodelito {
             session = HibernateUtil.getSessionFactory().openSession();
            
             td = (Tipodelito) session.load(Tipodelito.class, id);            
-            Hibernate.initialize(td.getDelitos());
+            td.setDelitos(null);
             
         } catch (Exception e) {
             e.printStackTrace();

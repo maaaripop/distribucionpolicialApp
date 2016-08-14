@@ -19,6 +19,9 @@ public class Delito  implements java.io.Serializable {
      private Date fecha;
 
     public Delito() {
+        idDelito=0;
+        latitud=0.0;
+        longitud=0.0;
     }
 
 	
