@@ -1,5 +1,5 @@
 package model.pojo;
-// Generated 01-ago-2016 22:20:49 by Hibernate Tools 4.3.1
+// Generated 21-sep-2016 0:55:08 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -14,6 +14,7 @@ public class Turno  implements java.io.Serializable {
      private int idTurno;
      private String horaInicio;
      private String horaFin;
+     private Set solucions = new HashSet(0);
      private Set delitos = new HashSet(0);
 
     public Turno() {
@@ -23,10 +24,11 @@ public class Turno  implements java.io.Serializable {
     public Turno(int idTurno) {
         this.idTurno = idTurno;
     }
-    public Turno(int idTurno, String horaInicio, String horaFin, Set delitos) {
+    public Turno(int idTurno, String horaInicio, String horaFin, Set solucions, Set delitos) {
        this.idTurno = idTurno;
        this.horaInicio = horaInicio;
        this.horaFin = horaFin;
+       this.solucions = solucions;
        this.delitos = delitos;
     }
    
@@ -50,6 +52,13 @@ public class Turno  implements java.io.Serializable {
     
     public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
+    }
+    public Set getSolucions() {
+        return this.solucions;
+    }
+    
+    public void setSolucions(Set solucions) {
+        this.solucions = solucions;
     }
     public Set getDelitos() {
         return this.delitos;

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21-sep-2016 0:55:10 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.pojo.Bloque" table="bloque" catalog="bdistribucionpolicial" optimistic-lock="version">
+        <id name="idBloque" type="int">
+            <column name="idBloque" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="solucion" class="model.pojo.Solucion" fetch="select">
+            <column name="idSolucion" not-null="true" />
+        </many-to-one>
+        <property name="latitud" type="java.lang.Double">
+            <column name="latitud" precision="22" scale="0" />
+        </property>
+        <property name="longitud" type="java.lang.Double">
+            <column name="longitud" precision="22" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

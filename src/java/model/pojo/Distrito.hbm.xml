@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 01-ago-2016 22:20:50 by Hibernate Tools 4.3.1 -->
+<!-- Generated 21-sep-2016 0:55:10 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.pojo.Distrito" table="distrito" catalog="bdistribucionpolicial" optimistic-lock="version">
         <id name="idDistrito" type="int">
@@ -11,6 +11,12 @@
         <property name="nombre" type="string">
             <column name="nombre" length="100" />
         </property>
+        <set name="distritoxbloques" table="distritoxbloque" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idDistrito" />
+            </key>
+            <one-to-many class="model.pojo.Distritoxbloque" />
+        </set>
         <set name="comisarias" table="comisaria" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="idDistrito" not-null="true" />

@@ -1,5 +1,5 @@
 package model.pojo;
-// Generated 01-ago-2016 22:20:49 by Hibernate Tools 4.3.1
+// Generated 21-sep-2016 0:55:08 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -19,9 +19,6 @@ public class Delito  implements java.io.Serializable {
      private Date fecha;
 
     public Delito() {
-        idDelito=0;
-        latitud=0.0;
-        longitud=0.0;
     }
 
 	

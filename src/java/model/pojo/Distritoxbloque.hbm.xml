@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21-sep-2016 0:55:10 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.pojo.Distritoxbloque" table="distritoxbloque" catalog="bdistribucionpolicial" optimistic-lock="version">
+        <id name="idDistritoXbloque" type="int">
+            <column name="idDistritoXbloque" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="distrito" class="model.pojo.Distrito" fetch="select">
+            <column name="idDistrito" />
+        </many-to-one>
+        <property name="i" type="java.lang.Integer">
+            <column name="i" />
+        </property>
+        <property name="j" type="java.lang.Integer">
+            <column name="j" />
+        </property>
+    </class>
+</hibernate-mapping>

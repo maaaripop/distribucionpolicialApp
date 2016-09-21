@@ -203,7 +203,7 @@
                                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de delito:</label>
                                         <div class="col-md-3 col-sm-3">
                                             <form:select path="tipodelito.idTipoDelito">
-                                                <form:option value="NONE" label="--- Seleccione ---"/>                                                
+                                                <form:option value="0" label="--- Seleccione ---"/>                                                
                                                 <c:forEach var="tipodelito" items="${tipodelitoLst}">
                                                     <form:option value="${tipodelito.getIdTipoDelito()}" label="${tipodelito.getNombre()}"/>
                                                 </c:forEach>                           
@@ -228,7 +228,7 @@
                                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Turno:</label>
                                         <div class="col-md-3 col-sm-3">
                                             <form:select path="turno.idTurno">
-                                                <form:option value="NONE" label="--- Seleccione ---"/>                           
+                                                <form:option value="0" label="--- Seleccione ---"/>                           
                                                 <c:forEach var="turno" items="${turnoLst}">
                                                     <form:option value="${turno.getIdTurno()}" label="${turno.getHoraInicio()}"/>
                                                 </c:forEach>

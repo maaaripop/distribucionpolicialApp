@@ -26,10 +26,10 @@ public class Mapa {
         SW=sw;
         NW=nw;
         SE=se;
-        cantV=(int)distanciaCoord(nw[0],nw[1],sw[0],sw[1]);
-        cantH=(int)distanciaCoord(nw[0],nw[1],ne[0],ne[1]);
+        cantH=(int)distanciaCoord(nw[0],nw[1],sw[0],sw[1]);
+        cantV=(int)distanciaCoord(nw[0],nw[1],ne[0],ne[1]);
         latLng  = new double[cantH+1][cantV+1][2];
-        distancias  = new double[cantH+1][cantV+1][cantH+1][cantV+1];
+        //distancias  = new double[cantH+1][cantV+1][cantH+1][cantV+1];
         
     }
     
@@ -81,36 +81,42 @@ public class Mapa {
         double [][][] coordenadas  = new double[cantH+1][cantV+1][2];
         latLng[0][0][0]=latOrig;
         latLng[0][0][1]=lngOrig;
-        for(int j=1;j<cantH;j++){
-            double [] unidad=latLngDistancia(latLng[j-1][0][0],latLng[j-1][0][1],distancia,180.0);
+        int j,i=0;
+        double [] unidad;
+        for(j=1;j<cantH;j++){
+            unidad=latLngDistancia(latLng[j-1][0][0],latLng[j-1][0][1],distancia,180.0);
             latLng[j][0][0]=unidad[0];
             latLng[j][0][1]=unidad[1];
         }
-        for(int i=1;i<cantV;i++){
-            double [] unidad=latLngDistancia(latLng[0][i-1][0],latLng[0][i-1][1],distancia,90.0);
+        for(i=1;i<cantV;i++){
+            unidad=latLngDistancia(latLng[0][i-1][0],latLng[0][i-1][1],distancia,90.0);
             latLng[0][i][0]=unidad[0];
             latLng[0][i][1]=unidad[1];
         }
-        for(int j=1;j<cantH;j++){
-            for(int i=1;i<cantV;i++){
-                double [] unidad=latlngEsquina(latLng[j-1][i-1][0],latLng[j-1][i-1][1],distancia);
+        for(j=1;j<cantH;j++){
+            for(i=1;i<cantV;i++){
+                unidad=latlngEsquina(latLng[j-1][i-1][0],latLng[j-1][i-1][1],distancia);
                 latLng[j][i][0]=unidad[0];
                 latLng[j][i][1]=unidad[1];
             }
         }
-        latLng=coordenadas;
-        calcularDistancias();
+        coordenadas=latLng;
+        //calcularDistancias();
         return coordenadas;
         
     }
     public void calcularDistancias(){
         
-        for(int j=0;j<cantH;j++){
-            for(int i=0;i<cantV;i++){
-                double []coord1=latLng[j][i];
-                for(int k=0;k<cantH;k++){
+        int j,i,k=0;
+        double []coord1;
+        double [] coord2;
+        
+        for(j=0;j<cantH;j++){
+            for(i=0;i<cantV;i++){
+                coord1=latLng[j][i];
+                for(k=0;k<cantH;k++){
                     for(int l=0;l<cantV;l++){
-                        double [] coord2= latLng[k][l];
+                        coord2= latLng[k][l];
                         distancias[j][i][k][l]=distanciaCoord(coord1[0],coord1[1],coord2[0],coord2[1]);
                     }
                 }

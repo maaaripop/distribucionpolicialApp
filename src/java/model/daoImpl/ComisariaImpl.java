@@ -144,6 +144,28 @@ public class ComisariaImpl implements IComisaria {
         }
     }
 
-    
+    public List<Comisaria> queryByIdDistrito(int id) {
+        List<Comisaria> lst = null;
+        Session session = null;
+        
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+           
+            Query query = session.createQuery("from Comisaria where idDistrito = :code ");
+            query.setParameter("code", id); 
+            lst = query.list();
+            for (Comisaria del : lst) {
+                Hibernate.initialize(del.getDistrito());
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (!HibernateUtil.getSessionFactory().isClosed() || session != null) {
+                session.close();
+            }
+        }
+        return lst;
+    }
     
 }

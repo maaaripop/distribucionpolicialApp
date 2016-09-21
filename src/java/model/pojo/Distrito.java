@@ -1,5 +1,5 @@
 package model.pojo;
-// Generated 01-ago-2016 22:20:49 by Hibernate Tools 4.3.1
+// Generated 21-sep-2016 0:55:08 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -13,6 +13,7 @@ public class Distrito  implements java.io.Serializable {
 
      private int idDistrito;
      private String nombre;
+     private Set distritoxbloques = new HashSet(0);
      private Set comisarias = new HashSet(0);
 
     public Distrito() {
@@ -22,9 +23,10 @@ public class Distrito  implements java.io.Serializable {
     public Distrito(int idDistrito) {
         this.idDistrito = idDistrito;
     }
-    public Distrito(int idDistrito, String nombre, Set comisarias) {
+    public Distrito(int idDistrito, String nombre, Set distritoxbloques, Set comisarias) {
        this.idDistrito = idDistrito;
        this.nombre = nombre;
+       this.distritoxbloques = distritoxbloques;
        this.comisarias = comisarias;
     }
    
@@ -41,6 +43,13 @@ public class Distrito  implements java.io.Serializable {
     
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    public Set getDistritoxbloques() {
+        return this.distritoxbloques;
+    }
+    
+    public void setDistritoxbloques(Set distritoxbloques) {
+        this.distritoxbloques = distritoxbloques;
     }
     public Set getComisarias() {
         return this.comisarias;

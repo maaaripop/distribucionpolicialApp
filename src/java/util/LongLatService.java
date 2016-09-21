@@ -20,7 +20,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 public class LongLatService {
     //<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAITDKVsmqWFfcBXcEszV0ZMkCj9tJTbns"></script>
     private static final String GEOCODE_REQUEST_URL 
-            = "http://maps.googleapis.com/maps/api/geocode/json?output=xml";
+            = "https://maps.googleapis.com/maps/api/geocode/json?output=xml";
     private static HttpClient httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
     
     
@@ -31,8 +31,7 @@ public class LongLatService {
             urlBuilder.append("&latlng=").append(latitud);
             urlBuilder.append(",").append(longitud);
             urlBuilder.append("&sensor=true");
-            
- 
+           
             final GetMethod getMethod = new GetMethod(urlBuilder.toString());
             try {
                 httpClient.executeMethod(getMethod);
@@ -56,6 +55,7 @@ public class LongLatService {
                   contador++; 
                 }
                 int route= result.indexOf("route");
+                int neighborhood= result.indexOf("neighborhood");
                 
                 sTextoBuscado = "short_name";
                 result = result.substring(result.indexOf(
@@ -68,6 +68,12 @@ public class LongLatService {
                     
                 }
                 
+                if(neighborhood>1){
+                    result = result.substring(result.indexOf(
+                          sTextoBuscado)+sTextoBuscado.length(),result.length());
+                    
+                }
+                
                 result = result.substring(result.indexOf(
                           "\"")+"\"".length(),result.length());
                 result = result.substring(result.indexOf(
@@ -75,7 +81,7 @@ public class LongLatService {
                 
                 int coma= result.indexOf("\"");
                 String distrito = result.substring(0,coma);
-                System.out.println (distrito);
+                //System.out.println (distrito);
                 return distrito;
                 // al segundo addres_component
                 // si encuentro route busco dos mas short_name, sino esta en el primer shortname 

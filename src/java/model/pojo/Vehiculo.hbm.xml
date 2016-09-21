@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21-sep-2016 0:55:10 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.pojo.Vehiculo" table="vehiculo" catalog="bdistribucionpolicial" optimistic-lock="version">
+        <id name="idvehiculo" type="int">
+            <column name="idvehiculo" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tipovehiculo" class="model.pojo.Tipovehiculo" fetch="select">
+            <column name="idtipoVehiculo" not-null="true" />
+        </many-to-one>
+        <property name="placa" type="string">
+            <column name="placa" length="7" />
+        </property>
+        <set name="vehiculoxcomisarias" table="vehiculoxcomisaria" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idvehiculo" not-null="true" />
+            </key>
+            <one-to-many class="model.pojo.Vehiculoxcomisaria" />
+        </set>
+    </class>
+</hibernate-mapping>

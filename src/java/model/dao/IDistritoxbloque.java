@@ -6,17 +6,14 @@
 package model.dao;
 
 import java.util.List;
-import model.pojo.Comisaria;
+import model.pojo.Distritoxbloque;
 
 /**
  *
  * @author Mariella
  */
-public interface IComisaria {
-    List<Comisaria> getAll();
-    int save(Comisaria c);
-    void update(Comisaria c);
-    void delete(int id);
-    Comisaria queryById(int id);
-    List<Comisaria> queryByIdDistrito(int id);
+public interface IDistritoxbloque {
+    List<Distritoxbloque> getAll();
+    int save(Distritoxbloque d);
+    List<Distritoxbloque> queryByIdDistrito(int id);
 }

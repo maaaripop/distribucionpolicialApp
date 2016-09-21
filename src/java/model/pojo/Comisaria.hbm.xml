@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 01-ago-2016 22:20:50 by Hibernate Tools 4.3.1 -->
+<!-- Generated 21-sep-2016 0:55:10 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.pojo.Comisaria" table="comisaria" catalog="bdistribucionpolicial" optimistic-lock="version">
         <id name="idComisaria" type="int">
@@ -20,8 +20,23 @@
         <property name="longitud" type="java.lang.Double">
             <column name="longitud" precision="22" scale="0" />
         </property>
-        <property name="cantPatrulla" type="java.lang.Integer">
+        <property name="cantPatrulla" type="int">
             <column name="cantPatrulla" />
         </property>
+        <property name="cantPatrullaSerenazgo" type="int">
+            <column name="cantPatrullaSerenazgo" />
+        </property>
+        <set name="vehiculoxcomisarias" table="vehiculoxcomisaria" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idComisaria" not-null="true" />
+            </key>
+            <one-to-many class="model.pojo.Vehiculoxcomisaria" />
+        </set>
+        <set name="solucions" table="solucion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idComisaria" not-null="true" />
+            </key>
+            <one-to-many class="model.pojo.Solucion" />
+        </set>
     </class>
 </hibernate-mapping>
