@@ -80,7 +80,9 @@ public class MapaController {
         model.addAttribute("distritos",distribucion.distritos);
         model.addAttribute("idDistrito",distribucion.idDistrito);
         model.addAttribute("distritolst",distribucion.distritolst);
-        model.addAttribute("vehiculosSolucion",distribucion.vehiculosSolucion);
+        model.addAttribute("vehiculosSolucion1",distribucion.vehiculosSolucion1);
+        model.addAttribute("vehiculosSolucion2",distribucion.vehiculosSolucion2);
+        model.addAttribute("vehiculosSolucion3",distribucion.vehiculosSolucion3);
        
     }
 

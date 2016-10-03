@@ -18,6 +18,13 @@
             var orig = new google.maps.LatLng(latOrig, lngOrig);
             var lstComisarias = [];
             var idDistrito=parseInt(<c:out value="${idDistrito}"/>);
+            var flag=true;
+            var lstrect= [];
+            var mapProp = {
+                    center: orig,
+                    zoom: 14,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
             /*  
               google.maps.event.addListener(rect,"bounds_changed",function(){
                     var bounds =rect.getBounds();
@@ -40,44 +47,126 @@
                 initialize();
             }  
             function initialize() {
-                var mapProp = {
-                    center: orig,
-                    zoom: 14,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
+                
                 var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
                 var marker, i;
                 var j;
                 var cantV=parseInt(<c:out value="${cantV}"/>);
                 var cantH=parseInt(<c:out value="${cantH}"/>);
                 var rect;
-                <c:set var="distritos" value="${distritos}" />
-                <c:set var="vehiculosSolucion" value="${vehiculosSolucion}" />    
+                
                 <c:forEach varStatus="j" var="lats" items="${latLng}" >
-                    <c:forEach varStatus="i" var="longs" items="${lats}" >
-                        <c:if test="${i.index<=cantV-2 && j.index<=cantH-2 }">
-                            if(${distritos[j.index][i.index]}==idDistrito){ 
-                                var rect= new google.maps.Rectangle({
-                                    map: map,
-                                    bounds: new google.maps.LatLngBounds(
-                                    new google.maps.LatLng(${latLng[j.index][i.index][0]},${latLng[j.index][i.index][1]}),        
-                                    new google.maps.LatLng(${latLng[j.index+1][i.index+1][0]},${latLng[j.index+1][i.index+1][1]})
-                                    )                         
-                                });
-                                rect.addListener('click', function() {
-                                    infoWindow = new google.maps.InfoWindow();
-                                    var ne = rect.getBounds().getNorthEast();
-                                    var idPlaca = ${vehiculosSolucion[j.index][i.index]};
-                                    var nombre= "Vehiculo Asigado : " + idPlaca;
-                                    if(idPlaca==-1) nombre= "No está asignado"
-                                    infoWindow.setContent(nombre);
-                                    infoWindow.setPosition(ne);
-                                    infoWindow.open(map);
-                                });
-                            }
-                        </c:if>
+                        <c:forEach varStatus="i" var="longs" items="${lats}" >
+                            <c:if test="${i.index<=cantV-2 && j.index<=cantH-2 }">
+                                if(${distritos[j.index][i.index]}==idDistrito){ 
+                                    var rect= new google.maps.Rectangle({
+                                        map: map,
+                                        bounds: new google.maps.LatLngBounds(
+                                        new google.maps.LatLng(${latLng[j.index][i.index][0]},${latLng[j.index][i.index][1]}),        
+                                        new google.maps.LatLng(${latLng[j.index+1][i.index+1][0]},${latLng[j.index+1][i.index+1][1]})
+                                        )                         
+                                    });
+                                    lstrect.push(rect);
+                                }
+                            </c:if>
+                        </c:forEach>
                     </c:forEach>
-                </c:forEach>
+                $('#sol1').on('click', function() {
+                    
+                    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                    <c:set var="distritos" value="${distritos}" />
+                    <c:set var="vehiculosSolucion1" value="${vehiculosSolucion1}" />  
+                    <c:forEach varStatus="j" var="lats" items="${latLng}" >
+                        <c:forEach varStatus="i" var="longs" items="${lats}" >
+                            <c:if test="${i.index<=cantV-2 && j.index<=cantH-2 }">
+                                if(${distritos[j.index][i.index]}==idDistrito){ 
+                                    var rect= new google.maps.Rectangle({
+                                        map: map,
+                                        bounds: new google.maps.LatLngBounds(
+                                        new google.maps.LatLng(${latLng[j.index][i.index][0]},${latLng[j.index][i.index][1]}),        
+                                        new google.maps.LatLng(${latLng[j.index+1][i.index+1][0]},${latLng[j.index+1][i.index+1][1]})
+                                        )                         
+                                    });
+                                    rect.addListener('click', function() {
+                                        infoWindow = new google.maps.InfoWindow();
+                                        var ne = this.getBounds().getCenter();
+                                        var placa = '${vehiculosSolucion1[j.index][i.index]}';
+                                        var nombre= "Vehiculo Asigado : " + placa;
+                                        if(placa==" ") nombre= "No está asignado"
+                                        infoWindow.setContent(nombre);
+                                        infoWindow.setPosition(ne);
+                                        infoWindow.open(map);
+                                    });
+                                }
+                            </c:if>
+                        </c:forEach>
+                    </c:forEach>
+                
+                });
+                
+                $('#sol2').on('click', function() {
+                    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                    <c:set var="distritos" value="${distritos}" />
+                    <c:set var="vehiculosSolucion2" value="${vehiculosSolucion2}" />  
+                    <c:forEach varStatus="j" var="lats" items="${latLng}" >
+                        <c:forEach varStatus="i" var="longs" items="${lats}" >
+                            <c:if test="${i.index<=cantV-2 && j.index<=cantH-2 }">
+                                if(${distritos[j.index][i.index]}==idDistrito){ 
+                                    var rect= new google.maps.Rectangle({
+                                        map: map,
+                                        bounds: new google.maps.LatLngBounds(
+                                        new google.maps.LatLng(${latLng[j.index][i.index][0]},${latLng[j.index][i.index][1]}),        
+                                        new google.maps.LatLng(${latLng[j.index+1][i.index+1][0]},${latLng[j.index+1][i.index+1][1]})
+                                        )                         
+                                    });
+                                    rect.addListener('click', function() {
+                                        infoWindow = new google.maps.InfoWindow();
+                                        var ne = this.getBounds().getCenter();
+                                        var placa = '${vehiculosSolucion2[j.index][i.index]}';
+                                        var nombre= "Vehiculo Asigado : " + placa;
+                                        if(placa==" ") nombre= "No está asignado"
+                                        infoWindow.setContent(nombre);
+                                        infoWindow.setPosition(ne);
+                                        infoWindow.open(map);
+                                    });
+                                }
+                            </c:if>
+                        </c:forEach>
+                    </c:forEach>
+                
+                });
+                
+                $('#sol3').on('click', function() {
+                    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                    <c:set var="distritos" value="${distritos}" />
+                    <c:set var="vehiculosSolucion3" value="${vehiculosSolucion3}" />  
+                    <c:forEach varStatus="j" var="lats" items="${latLng}" >
+                        <c:forEach varStatus="i" var="longs" items="${lats}" >
+                            <c:if test="${i.index<=cantV-2 && j.index<=cantH-2 }">
+                                if(${distritos[j.index][i.index]}==idDistrito){ 
+                                    var rect= new google.maps.Rectangle({
+                                        map: map,
+                                        bounds: new google.maps.LatLngBounds(
+                                        new google.maps.LatLng(${latLng[j.index][i.index][0]},${latLng[j.index][i.index][1]}),        
+                                        new google.maps.LatLng(${latLng[j.index+1][i.index+1][0]},${latLng[j.index+1][i.index+1][1]})
+                                        )                         
+                                    });
+                                    rect.addListener('click', function() {
+                                        infoWindow = new google.maps.InfoWindow();
+                                        var ne = this.getBounds().getCenter();
+                                        var placa = '${vehiculosSolucion3[j.index][i.index]}';
+                                        var nombre= "Vehiculo Asigado : " + placa;
+                                        if(placa==" ") nombre= "No está asignado"
+                                        infoWindow.setContent(nombre);
+                                        infoWindow.setPosition(ne);
+                                        infoWindow.open(map);
+                                    });
+                                }
+                            </c:if>
+                        </c:forEach>
+                    </c:forEach>
+                
+                });
                 
                   
 
@@ -92,7 +181,6 @@
 
     <body>
         <div class="container">
-
         <h1>Mapa de distribución</h1>
         <div class="row" style="margin-top: 10px;">
             <div class="form-group">
@@ -108,6 +196,39 @@
                 </div>    
             </div>
         </div>   
+        
+        <div class="row" style="margin-top: 10px;">
+            <div class="form-group">
+                <div class="col-md-3 col-sm-3">
+                </div>    
+                <div class="col-md-6 col-sm-6">
+                    <table class="table table-bordered" id="opciones">
+                        <thead>
+                          <tr>
+                            <th>Solución</th>
+                            <th></th>    
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Solución 1</td>
+                            <td><input type="radio" id="sol1"></td>
+                          </tr>
+                          <tr>
+                            <td>Solución 2</td>
+                            <td><input type="radio" id="sol2"></td>
+                          </tr>
+                          <tr>
+                            <td>Solución 3</td>
+                            <td><input type="radio" id="sol3"></td>
+                          </tr>
+                        </tbody>
+                    </table>                              
+                </div>    
+                <div class="col-md-3 col-sm-3">
+                </div>   
+            </div>
+        </div>  
  
         <div class="row"> 
             <div class="col-md-12">

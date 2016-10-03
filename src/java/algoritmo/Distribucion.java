@@ -24,6 +24,7 @@ import model.pojo.Comisaria;
 import model.pojo.Delito;
 import model.pojo.Distrito;
 import model.pojo.Distritoxbloque;
+import model.pojo.Vehiculo;
 import model.pojo.Vehiculoxcomisaria;
 import util.LongLatService;
 
@@ -42,16 +43,35 @@ public class Distribucion {
     ArrayList<Comisaria> comisarialst=null;
     public ArrayList<Distrito> distritolst=null;
     ArrayList<Distritoxbloque> distritoxbloquelst=null;
+    ArrayList<Distritoxbloque> bloquelstAux=null;
     ArrayList<Distritoxbloque> bloquelst=null;
+    
+    ArrayList<int[]> bloquelstSol= new ArrayList<int[]>();
+    ArrayList<String> vehiculoSol=new  ArrayList<String>();
+    
+    ArrayList<int[]> bloquelstSol1= new ArrayList<int[]>();
+    ArrayList<String> vehiculoSol1=new  ArrayList<String>();
+    
+    ArrayList<int[]> bloquelstSol2= new ArrayList<int[]>();
+    ArrayList<String> vehiculoSol2=new  ArrayList<String>();
+    
+    ArrayList<int[]> bloquelstSol3= new ArrayList<int[]>();
+    ArrayList<String> vehiculoSol3=new  ArrayList<String>();
+    
     ArrayList<Vehiculoxcomisaria> vehiculoxcomisarialst=null;
+    ArrayList<Vehiculoxcomisaria> vehiculoxcomisariaAux=null;
+    
     Comisaria comisaria = null;
+    Comisaria comisariaAux= null;
     public int [][][][] delitos;
     public int cantPeriodo=10;
     public int cantMeses=1;
     public int [] fechasPeriodo;
     public double smoothFactor=0.25;
     public double [][][] delitosForecast;
-    public int [][] vehiculosSolucion;
+    public String [][] vehiculosSolucion1;
+    public String [][] vehiculosSolucion2;
+    public String [][] vehiculosSolucion3;
     public int [][] distritos;
     public double beta=0;
     public double tau=0;
@@ -60,6 +80,9 @@ public class Distribucion {
     public int idDistrito=26;//surquillo
     public int idComisaria=1;
     ArrayList<int[]> bloquesDelitos =null;
+    ArrayList<int[]> bloques =null;
+    public double [] latDistritos;
+    public double [] lngDistritos;
     
     class MyComparator  implements Comparator<int[]> {
     @Override
@@ -81,7 +104,10 @@ public class Distribucion {
         delitolst=(ArrayList<Delito>)delitoService.getAll();
         comisarialst=(ArrayList<Comisaria>)comisariaService.queryByIdDistrito(idDistrito);
         comisaria = (Comisaria) comisariaService.queryById(idComisaria);
+        lngDistritos= new double [comisarialst.size()+1];
+        latDistritos= new double [comisarialst.size()+1];
         vehiculoxcomisarialst= (ArrayList<Vehiculoxcomisaria>)vehiculoxcomisariaService.queryByIdComisaria(idComisaria);
+        vehiculoxcomisariaAux = new ArrayList<Vehiculoxcomisaria>();
         distritolst=(ArrayList<Distrito>)distritoService.getAll();
         double[] NE={-11.592316,-77.350372};
         double[] SW={-13.050655,-75.202545};
@@ -92,14 +118,21 @@ public class Distribucion {
         iniciarFechas();
         delitos = new int [mapa.cantH][mapa.cantV][cantPeriodo][3];
         bloquesDelitos =new ArrayList<int[]>();
+        bloques = new ArrayList<int[]>();
+        
         distritos  = new int [mapa.cantH][mapa.cantV];
-        vehiculosSolucion  = new int [mapa.cantH][mapa.cantV];
+        vehiculosSolucion1  = new String [mapa.cantH][mapa.cantV];
+        vehiculosSolucion2  = new String [mapa.cantH][mapa.cantV];
+        vehiculosSolucion3  = new String [mapa.cantH][mapa.cantV];
+        
         // se usara para el contador de delitos de acuerdo al periodo que pertenezcan
         // y al turno
         for(j=0;j<mapa.cantH;j++){
             for(i=0;i<mapa.cantV;i++){
                 distritos [j][i]=-1;
-                vehiculosSolucion[j][i]=-1;
+                vehiculosSolucion1[j][i]=" ";
+                vehiculosSolucion2[j][i]=" ";
+                vehiculosSolucion3[j][i]=" ";
                 for(k=0;k<cantPeriodo;k++){
                     for(l=0;l<3;l++){
                         delitos[j][i][k][l]=0;
@@ -129,9 +162,11 @@ public class Distribucion {
         obtenerDelitosDistritos();
         ordenarDistritosXDelitos();
         imprimirDelitos();
-        grasp(1,0.8);
+        grasp(10,0.8);
         
     }
+
+    
     public void ordenarDistritosXDelitos(){
         ArrayList<int []> lstOrdenar=bloquesDelitos;
         // ordenar por delitoforecast
@@ -238,9 +273,18 @@ public class Distribucion {
         double costoAux=0;
         double delitos=0;
         double distancia=0;
-        for(Distritoxbloque d: bloquelst){
+        /*for(Distritoxbloque d: bloquelst){
             j=d.getJ();
             i=d.getI();
+            delitos=delitosForecast[j][i][idTurno];
+            distancia=mapa.distanciaCoord(mapa.latLng[j][i][0], mapa.latLng[j][i][1], comisaria.getLatitud(), comisaria.getLongitud());
+            costoAux=delitos/distancia;
+            costo=costo+costoAux;
+        }
+        */
+        for(int[] d: bloquelstSol){
+            j=d[0];
+            i=d[1];
             delitos=delitosForecast[j][i][idTurno];
             distancia=mapa.distanciaCoord(mapa.latLng[j][i][0], mapa.latLng[j][i][1], comisaria.getLatitud(), comisaria.getLongitud());
             costoAux=delitos/distancia;
@@ -250,52 +294,164 @@ public class Distribucion {
     }
     public void grasp(int numIteraciones, double alpha){
         int i=0;
+        double costo1=0;
+        double costo2=0;
+        double costo3=0;
+        double costoActual=0;
         for(i=0;i<numIteraciones;i++){
+            
+            bloquelstSol= new ArrayList<int[]>();
+            vehiculoSol=new  ArrayList<String>();
             faseConstructiva(alpha);
+            costoActual=costoTotal();
+            System.out.println("*************iteracion******" + i + " costo: " + costoActual );
+            if(costo1<costoActual){
+                costo1=costoActual;
+                //cargo solucion a solucion1
+                cargoSolucion(1);
+            } else {
+            
+                if (costo2<costoActual){
+                    costo2=costoActual;
+                    //cargo solucion a solucion2
+                    cargoSolucion(2);
+                }
+                else {
+                    if (costo3<costoActual){
+                        costo3=costoActual;
+                        cargoSolucion(3);
+                    }
+                
+                }
+            
+            }
         }
+        System.out.println("*************costo 1******" + costo1 );
+        System.out.println("*************costo 2******" + costo2 );
+        System.out.println("*************costo 3******" + costo3 );
+        convertir();
+        
+    }
+    
+    public void cargoSolucion(int numSolucion){
+        int i=0;
+        if(numSolucion==1){
+            bloquelstSol1= new ArrayList<int[]>();
+            vehiculoSol1=new  ArrayList<String>();
+            for(int[] d: bloquelstSol){
+                bloquelstSol1.add(d);
+                vehiculoSol1.add(vehiculoSol.get(i));
+                i++;
+            }
+            return;
+        }
+        
+        if(numSolucion==2){
+            bloquelstSol2= new ArrayList<int[]>();
+            vehiculoSol2=new  ArrayList<String>();
+            for(int[] d: bloquelstSol){
+                bloquelstSol2.add(d);
+                vehiculoSol2.add(vehiculoSol.get(i));
+                i++;
+            }
+            return;
+        }
+         
+        if(numSolucion==3){
+            
+            bloquelstSol3= new ArrayList<int[]>();
+            vehiculoSol3=new  ArrayList<String>();
+            for(int[] d: bloquelstSol){
+                bloquelstSol3.add(d);
+                vehiculoSol3.add(vehiculoSol.get(i));
+                i++;
+            }
+            return;
+        }
+    
     }
     public void faseConstructiva(double alpha){
         longLatService = new LongLatService();
         int j,i=0;
-        int idPlaca=0;
-        int cantDelitos=bloquesDelitos.size();
-        int cantVehiculo= vehiculoxcomisarialst.size();
+        String placa=" ";
+        comisariaAux = new Comisaria(comisaria.getIdComisaria(), comisaria.getDistrito(), comisaria.getNombre(), comisaria.getLatitud(), comisaria.getLongitud(), comisaria.getCantPatrulla(), comisaria.getCantPatrullaSerenazgo(),null,null );
+        bloques = new ArrayList<int[]>();
+        vehiculoxcomisariaAux= new ArrayList<Vehiculoxcomisaria>();
+        for(int[] d: bloquesDelitos){
+            bloques.add(d);
+        }
+        for(Vehiculoxcomisaria v: vehiculoxcomisarialst){
+            vehiculoxcomisariaAux.add(v);
+        }
+        int cantDelitos=bloques.size();
+        int cantVehiculo= vehiculoxcomisariaAux.size();
         while( cantDelitos!=0 && (quedaVehiculos() || quedaVehiculosSerenazgo())){
-            idPlaca=buscarVehiculo();
+            placa=buscarVehiculo();
             inicializar();
             ArrayList<int[]> bloquesLCR = obtenerLCR(alpha);
             int random= (int) (Math.random()*bloquesLCR.size());
             int delito[] =  bloquesLCR.get(random);
             eliminarBloque(delito[0],delito[1]);
-            vehiculosSolucion[delito[0]][delito[1]]=idPlaca;
-            cantDelitos=bloquesDelitos.size();
+            cantDelitos=bloques.size();
+            //voy guardando la solución
+            bloquelstSol.add(delito);
+            vehiculoSol.add(placa);
+            
         }
+    }
+    
+    public void convertir(){
+        int i=0;
+        for(int[] d: bloquelstSol1){
+                vehiculosSolucion1[d[0]][d[1]]= vehiculoSol1.get(i);
+                i++;
+        }
+        i=0;
+        for(int[] d: bloquelstSol2){
+                vehiculosSolucion2[d[0]][d[1]]= vehiculoSol2.get(i);
+                i++;
+        }
+        i=0;
+        for(int[] d: bloquelstSol3){
+                vehiculosSolucion3[d[0]][d[1]]= vehiculoSol3.get(i);
+                i++;
+        }
+        
+        //esta funcion llena este arreglo para mostrarlo en los view 
+        //vehiculosSolucion[delito[0]][delito[1]]=placa;
     }
     public void eliminarBloque (int j, int i){
         int y=0;
-        for(int[] bloque: bloquesDelitos){
+        for(int[] bloque: bloques){
             if(bloque[0]==j && bloque[1]==i){
-                bloquesDelitos.remove(y);
+                bloques.remove(y);
                 return;
             }
             y++;
         }
     }
-    public int buscarVehiculo(){
+    public String buscarVehiculo(){
         // si hay alguna patrulla (policia) lo bota primero, sino botara un serenazgo
         // eliminar el vehiculo seleccionado
-        int cantVehiculo=vehiculoxcomisarialst.size();
-        int random= (int) (Math.random()*vehiculoxcomisarialst.size());
+        String placa=null;
+        int cantVehiculo=vehiculoxcomisariaAux.size();
+        int random= (int) (Math.random()*vehiculoxcomisariaAux.size());
         boolean hayPatrullas = quedaVehiculos();
-        while(hayPatrullas && !(vehiculoxcomisarialst.get(random).getVehiculo().getTipovehiculo().getIdtipoVehiculo()==1)){
-            random= (int) (Math.random()*vehiculoxcomisarialst.size());
+        while(hayPatrullas && !(vehiculoxcomisariaAux.get(random).getVehiculo().getTipovehiculo().getIdtipoVehiculo()==1)){
+            random= (int) (Math.random()*vehiculoxcomisariaAux.size());
         }
         if(hayPatrullas) {
-            vehiculoxcomisarialst.remove(random);
-            return vehiculoxcomisarialst.get(random).getVehiculo().getIdvehiculo();
+            placa=vehiculoxcomisariaAux.get(random).getVehiculo().getPlaca();
+            vehiculoxcomisariaAux.remove(random);
+            actualizarCantPatrulla();
+            return placa;
+        
         }
-        vehiculoxcomisarialst.remove(random);
-        return vehiculoxcomisarialst.get(random).getVehiculo().getIdvehiculo();
+        
+        placa=vehiculoxcomisariaAux.get(random).getVehiculo().getPlaca();
+        vehiculoxcomisariaAux.remove(random);
+        actualizarCantPatrullaSerenazgo();
+        return placa;
     }
     public void inicializar(){
         int i=0,j=0;
@@ -317,11 +473,11 @@ public class Distribucion {
                     beta = costoAux;
                     flag =1;
                 }else
-                {
-                    if (costoAux<beta) 
-                            beta=costoAux;
-                    if (costoAux>tau) 
+                { //beta es el maximo, tau es el minimo
+                    if (costoAux<tau) 
                             tau=costoAux;
+                    if (costoAux>beta) 
+                            beta=costoAux;
                 }
             }
         }
@@ -337,17 +493,18 @@ public class Distribucion {
         ArrayList<int[]> bloquesLCR =new ArrayList<int[]>();
         double costoAux,delitos,distancia = 0;
         int j,i=0;
-        //maximo peor valor tau
-        //minimo mejor valor beta
+        //min peor valor tau
+        //maxima mejor valor beta
         for( int[] bloque : bloquesDelitos){
             j=bloque[0];
             i=bloque[1];
             delitos=delitosForecast[j][i][idTurno];
             distancia=mapa.distanciaCoord(mapa.latLng[j][i][0], mapa.latLng[j][i][1], comisaria.getLatitud(), comisaria.getLongitud());
             costoAux=delitos/distancia;      
-            //minizar la funcion 
+
             // maximizar la funcion (tesis)
-            if ( beta<=costoAux  &&costoAux<=( beta + alpha*(tau-beta))){
+            if ( tau + alpha*(beta-tau) <=costoAux  &&costoAux<=beta){
+                //minimizar funcion
                 //System.out.println("Costo aux LCR " + costoAux);
                 bloquesLCR.add(bloque);
             }
@@ -356,21 +513,19 @@ public class Distribucion {
         return bloquesLCR;
     } 
     public void actualizarCantPatrulla(){
-        comisaria.setCantPatrulla( comisaria.getCantPatrulla()-1);
+        comisariaAux.setCantPatrulla( comisariaAux.getCantPatrulla()-1);
     }
     public void actualizarCantPatrullaSerenazgo(){
-         comisaria.setCantPatrullaSerenazgo( comisaria.getCantPatrullaSerenazgo()-1);
+         comisariaAux.setCantPatrullaSerenazgo( comisariaAux.getCantPatrullaSerenazgo()-1);
     }
     public boolean quedaVehiculos(){
-        if(comisaria.getCantPatrulla()>0) return true;
+        if(comisariaAux.getCantPatrulla()>0) return true;
         else return false;
     }
     public boolean quedaVehiculosSerenazgo(){
-        if(comisaria.getCantPatrullaSerenazgo()>0) return true;
+        if(comisariaAux.getCantPatrullaSerenazgo()>0) return true;
         else return false;
     }
-    
-    
     public ArrayList<Comisaria> buscarComisarias(){
         ArrayList<Comisaria> comisariasXdistritos= new ArrayList<Comisaria>();
             for(Comisaria c: comisarialst ){

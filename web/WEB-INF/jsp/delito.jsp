@@ -108,8 +108,7 @@
 
     <body>
         <div class="container">
-
-        <h1>Mapa de delitos</h1>
+        <h2>Mapa de delitos</h2>
         
         
         <div class="row"> 
@@ -137,27 +136,34 @@
                         <div class="modal-body">
                             <div class="row" style="margin-top: 10px;">
                                 <div class="form-group">
-                                    <div class="col-md-3 col-sm-3"></div>
-                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de delito:</label>
-                                    <div class="col-md-3 col-sm-3 col-xs-12" id="crime-type">
+                                    <div class="col-md-6 col-sm-6">
+                                        <label for="middle-name" class="control-label">Tipo de delito:</label>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-sm-6"id="crime-type">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row" style="margin-top: 10px;">
                                 <div class="form-group">
-                                    <div class="col-md-3 col-sm-3"></div>
-                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha:</label>
-                                    <div class="col-md-3 col-sm-3 col-xs-12" id="date">
+                                    <div class="col-md-6 col-sm-6">
+                                        <label for="middle-name" class="control-label">Fecha:</label>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-sm-6" id="date">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row" style="margin-top: 10px;">
                                 <div class="form-group">
-                                    <div class="col-md-3 col-sm-3"></div>
-                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Turno:</label>
-                                    <div class="col-md-3 col-sm-3 col-xs-12" id="turn">
+                                    <div class="col-md-6 col-sm-6">
+                                        
+                                        <label for="middle-name" class="control-label">Turno:</label>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-sm-6" id="turn">
 
                                     </div>
                                 </div>
@@ -165,15 +171,17 @@
 
                             <div class="row" style="margin-top: 10px;">
                                 <div class="form-group">
-                                    <div class="col-md-3 col-sm-3"></div>
-                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Comentarios:</label>
-                                    <div class="col-md-3 col-sm-3 col-xs-12" id="comment">
+                                    <div class="col-md-6 col-sm-6">
+                                        <label for="middle-name" class="control-label">Comentarios:</label>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-sm-6" id="comment">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            
                         </div>
                     </div>
 
@@ -199,10 +207,13 @@
                             <div class="modal-body">
                                 <div class="row" style="margin-top: 10px;">
                                     <div class="form-group">
-                                        <div class="col-md-3 col-sm-3"></div>
-                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de delito:</label>
-                                        <div class="col-md-3 col-sm-3">
-                                            <form:select path="tipodelito.idTipoDelito">
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="middle-name" class="control-label">Tipo de delito:</label>
+                                            
+                                        </div>
+                                        
+                                        <div class="col-md-6 col-sm-6">
+                                            <form:select class="form-control" path="tipodelito.idTipoDelito">
                                                 <form:option value="0" label="--- Seleccione ---"/>                                                
                                                 <c:forEach var="tipodelito" items="${tipodelitoLst}">
                                                     <form:option value="${tipodelito.getIdTipoDelito()}" label="${tipodelito.getNombre()}"/>
@@ -214,20 +225,23 @@
 
                                 <div class="row" style="margin-top: 10px;">
                                     <div class="form-group">
-                                        <div class="col-md-3 col-sm-3"></div>
-                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha:</label>
-                                        <div class="col-md-3 col-sm-3 col-xs-12" id="date">
-                                            <form:input type="date" path="fecha"/>
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="middle-name" class="control-label">Fecha:</label>
+                                        </div>
+                                        
+                                        <div class="col-md-6 col-sm-6"  id="date">
+                                            <form:input class="form-control"type="date" path="fecha"/>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row" style="margin-top: 10px;">
                                     <div class="form-group">
-                                        <div class="col-md-3 col-sm-3"></div>
-                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Turno:</label>
-                                        <div class="col-md-3 col-sm-3">
-                                            <form:select path="turno.idTurno">
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="middle-name" class="control-label">Turno:</label>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <form:select class="form-control" path="turno.idTurno">
                                                 <form:option value="0" label="--- Seleccione ---"/>                           
                                                 <c:forEach var="turno" items="${turnoLst}">
                                                     <form:option value="${turno.getIdTurno()}" label="${turno.getHoraInicio()}"/>
@@ -241,17 +255,29 @@
 
                                 <div class="row" style="margin-top: 10px;">
                                     <div class="form-group">
-                                        <div class="col-md-3 col-sm-3"></div>
-                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Descripción:</label>
-                                        <div class="col-md-3 col-sm-3 col-xs-12" >
-                                            <form:input path="descripcion" />
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="middle-name" class="control-label">Descripción:</label>
+                                        </div>
+                                        
+                                        <div class="col-md-6 col-sm-6" >
+                                            <form:input path="descripcion" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                                <input type="submit" value="OK">
+                                 <div class="form-group">
+                                     <div class="row" style="margin-top: 10px;">
+                                        <div class="col-md-6 col-sm-6">
+                                            
+                                        </div>
+                                        <div class="col-md-6 col-sm-6" >
+                                            <input type="submit" value="Guardar" class="form-control">
+                                        </div>
+                                     </div>
+                                </div>
+                                
+                                
                             </div>
                         </div>
                     </form:form>
