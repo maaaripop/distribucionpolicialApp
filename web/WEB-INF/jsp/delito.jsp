@@ -7,7 +7,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Mapa de delitos</title>
-
+        
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAITDKVsmqWFfcBXcEszV0ZMkCj9tJTbns"></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -103,11 +103,14 @@
 
         </script>
 
-
+        
     </head>
 
     <body>
+        
+        <jsp:include page="nav.jsp"/>
         <div class="container">
+        
         <h2>Mapa de delitos</h2>
         
         

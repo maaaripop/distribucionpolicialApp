@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-oct-2016 1:13:51 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.pojo.Usuario" table="usuario" catalog="bdistribucionpolicial" optimistic-lock="version">
+        <id name="idUsuario" type="int">
+            <column name="idUsuario" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="comisaria" class="model.pojo.Comisaria" fetch="select">
+            <column name="idComisaria" />
+        </many-to-one>
+        <property name="correo" type="string">
+            <column name="correo" length="45" />
+        </property>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" />
+        </property>
+        <property name="apellidoPaterno" type="string">
+            <column name="apellidoPaterno" length="45" />
+        </property>
+        <property name="apellidoMaterno" type="string">
+            <column name="apellidoMaterno" length="45" />
+        </property>
+        <property name="contrasenha" type="string">
+            <column name="contrasenha" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 21-sep-2016 0:55:10 by Hibernate Tools 4.3.1 -->
+<!-- Generated 06-oct-2016 1:13:51 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.pojo.Comisaria" table="comisaria" catalog="bdistribucionpolicial" optimistic-lock="version">
         <id name="idComisaria" type="int">
@@ -31,6 +31,12 @@
                 <column name="idComisaria" not-null="true" />
             </key>
             <one-to-many class="model.pojo.Vehiculoxcomisaria" />
+        </set>
+        <set name="usuarios" table="usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idComisaria" />
+            </key>
+            <one-to-many class="model.pojo.Usuario" />
         </set>
         <set name="solucions" table="solucion" inverse="true" lazy="true" fetch="select">
             <key>

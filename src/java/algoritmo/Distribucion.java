@@ -374,7 +374,7 @@ public class Distribucion {
         longLatService = new LongLatService();
         int j,i=0;
         String placa=" ";
-        comisariaAux = new Comisaria(comisaria.getIdComisaria(), comisaria.getDistrito(), comisaria.getNombre(), comisaria.getLatitud(), comisaria.getLongitud(), comisaria.getCantPatrulla(), comisaria.getCantPatrullaSerenazgo(),null,null );
+        comisariaAux = new Comisaria(comisaria.getIdComisaria(), comisaria.getDistrito(), comisaria.getNombre(), comisaria.getLatitud(), comisaria.getLongitud(), comisaria.getCantPatrulla(), comisaria.getCantPatrullaSerenazgo(),null,null ,null);
         bloques = new ArrayList<int[]>();
         vehiculoxcomisariaAux= new ArrayList<Vehiculoxcomisaria>();
         for(int[] d: bloquesDelitos){

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-oct-2016 1:13:51 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.pojo.Configuracion" table="configuracion" catalog="bdistribucionpolicial" optimistic-lock="version">
+        <id name="idConfiguracion" type="int">
+            <column name="idConfiguracion" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="turno" class="model.pojo.Turno" fetch="select">
+            <column name="idTurno" not-null="true" />
+        </many-to-one>
+        <property name="coefRelaj" type="java.lang.Double">
+            <column name="coefRelaj" precision="22" scale="0" />
+        </property>
+        <property name="factSmooth" type="java.lang.Double">
+            <column name="factSmooth" precision="22" scale="0" />
+        </property>
+        <property name="cantMeses" type="java.lang.Integer">
+            <column name="cantMeses" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -180,6 +180,8 @@
     </head>
 
     <body>
+       
+        <jsp:include page="nav.jsp"/>
         <div class="container">
         <h1>Mapa de distribución</h1>
         <div class="row" style="margin-top: 10px;">

@@ -25,17 +25,21 @@
             
         </script>
     </head>
-    <body>
+    <body style="background-color:#000000">
         <div class="container">
-        <br>    
-        <h1 align=center>Herramienta de Distribución de Carga policial</h1>
-        <br>
-        <br>
+        <br>  
+            <div  align="center">
+                <img height="120" width="120"src="http://153kte3ghkd82m9q9324ophp.wpengine.netdna-cdn.com/wp-content/uploads/sites/14/2015/12/plan-icon.png"/>
+                <br>
+                <br>
+                <h5 style="color:white;">Herramienta de Distribución de Carga policial</h5>    
+            </div>
         <br>
          
         <div class="modal fade" id="userNew" role="dialog">
                 <div class="modal-dialog">
-
+                    <c:url var="agregarUsuario" value="/usuario" ></c:url>
+                    <form:form action="${agregarUsuario}" commandName="usuario">
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
@@ -50,7 +54,8 @@
                                     </div>
                                     
                                     <div class="col-md-6 col-sm-6">
-                                        <input type="text" class="form-control"/>
+                                         <form:input class="form-control" type="text" path="correo"/>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +67,7 @@
                                     </div>
                                     
                                     <div class="col-md-6 col-sm-6">
-                                        <input type="password" class="form-control"/>
+                                        <form:input class="form-control" type="password" path="contrasenha"/>
                                     </div>
                                 </div>
                             </div>
@@ -94,14 +99,18 @@
                                 
                         </div>
                     </div>
+                    </form:form>
 
                 </div>
             </div>
+        <div>   
+            <c:url var="iniciarSesion" value="/sesion" ></c:url>
+            <form:form action="${iniciarSesion}" commandName="usuario">
         <div class="row" style="margin-top: 10px;">
             <div class="form-group">
                 <div class="col-md-4 col-sm-4"></div>
                 <div class="col-md-4 col-sm-4">
-                    <input type="text" class="form-control" placeholder="Usuario"
+                    <form:input type="text" class="form-control" placeholder="Usuario" path="correo"
                         />
                 </div> 
                 <div class="col-md-4 col-sm-4"></div>
@@ -112,7 +121,7 @@
             <div class="form-group">
                 <div class="col-md-4 col-sm-4"></div>
                 <div class="col-md-4 col-sm-4">
-                    <input type="password" class="form-control"  placeholder="Contraseña"
+                    <form:input type="password" class="form-control"  placeholder="Contraseña" path="contrasenha"
                         />
                 </div> 
                 <div class="col-md-4 col-sm-4"></div>
@@ -123,8 +132,7 @@
             <div class="form-group">
                 <div class="col-md-4 col-sm-4"></div>
                 <div class="col-md-4 col-sm-4">
-                    <input type="button" value="Iniciar Sesión" class="form-control" 
-                        />
+                    <input type="submit" value="Iniciar Sesión" class="form-control">
                 </div>
                 
                 
@@ -145,9 +153,9 @@
             </div>
         </div> 
         
-        
+            </form:form>
         </div>
-        
+        </div>
              
         
     </body>

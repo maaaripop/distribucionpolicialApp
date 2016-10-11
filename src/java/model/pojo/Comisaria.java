@@ -1,5 +1,5 @@
 package model.pojo;
-// Generated 21-sep-2016 0:55:08 by Hibernate Tools 4.3.1
+// Generated 06-oct-2016 1:13:50 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -19,6 +19,7 @@ public class Comisaria  implements java.io.Serializable {
      private int cantPatrulla;
      private int cantPatrullaSerenazgo;
      private Set vehiculoxcomisarias = new HashSet(0);
+     private Set usuarios = new HashSet(0);
      private Set solucions = new HashSet(0);
 
     public Comisaria() {
@@ -29,7 +30,7 @@ public class Comisaria  implements java.io.Serializable {
         this.idComisaria = idComisaria;
         this.distrito = distrito;
     }
-    public Comisaria(int idComisaria, Distrito distrito, String nombre, Double latitud, Double longitud, int cantPatrulla, int cantPatrullaSerenazgo, Set vehiculoxcomisarias, Set solucions) {
+    public Comisaria(int idComisaria, Distrito distrito, String nombre, Double latitud, Double longitud, int cantPatrulla, int cantPatrullaSerenazgo, Set vehiculoxcomisarias, Set usuarios, Set solucions) {
        this.idComisaria = idComisaria;
        this.distrito = distrito;
        this.nombre = nombre;
@@ -38,6 +39,7 @@ public class Comisaria  implements java.io.Serializable {
        this.cantPatrulla = cantPatrulla;
        this.cantPatrullaSerenazgo = cantPatrullaSerenazgo;
        this.vehiculoxcomisarias = vehiculoxcomisarias;
+       this.usuarios = usuarios;
        this.solucions = solucions;
     }
    
@@ -96,6 +98,13 @@ public class Comisaria  implements java.io.Serializable {
     
     public void setVehiculoxcomisarias(Set vehiculoxcomisarias) {
         this.vehiculoxcomisarias = vehiculoxcomisarias;
+    }
+    public Set getUsuarios() {
+        return this.usuarios;
+    }
+    
+    public void setUsuarios(Set usuarios) {
+        this.usuarios = usuarios;
     }
     public Set getSolucions() {
         return this.solucions;

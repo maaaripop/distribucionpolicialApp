@@ -1,5 +1,5 @@
 package model.pojo;
-// Generated 21-sep-2016 0:55:08 by Hibernate Tools 4.3.1
+// Generated 06-oct-2016 1:13:50 by Hibernate Tools 4.3.1
 
 
 
@@ -27,8 +27,8 @@ public class Distritoxbloque  implements java.io.Serializable {
        this.i = i;
        this.j = j;
     }
-    
-    public Distritoxbloque(Distrito distrito, int i, int j) {
+    public Distritoxbloque( Distrito distrito, int i, int j) {
+       
        this.distrito = distrito;
        this.i = i;
        this.j = j;

@@ -120,10 +120,17 @@
                             var tableRowsV = tableV.getElementsByTagName('tr');
                             var rowCountV = tableRowsV.length;
                             var diferencia= cantVehiculo-rowCountV+1;
-                            for( var j=0;j<diferencia;j++){
-                                  $( "#vehiculosNew" ).find('tbody').append('<tr><td><input class="form-control" type="text"/></td></tr>');   
+                            if(diferencia>0){
+                                for( var j=0;j<diferencia;j++){
+                                      $( "#vehiculosNew" ).find('tbody').append('<tr><td><input class="form-control" type="text" maxlength="7"/></td></tr>');   
+                                    }
                                 }
-                            
+                            else {
+                                diferencia=diferencia*-1;
+                                for( var j=0;j<diferencia;j++){
+                                    $('#vehiculosNew tr:last').remove();
+                                }
+                            }
                             
                         });
                         
@@ -135,11 +142,17 @@
                             var tableRowsS = tableS.getElementsByTagName('tr');
                             var rowCountS = tableRowsS.length;
                             var diferencia= cantSerenazgo-rowCountS+1;
-                            for( var j=0;j<diferencia;j++){
-                                $( "#serenazgosNew" ).find('tbody').append('<tr><td><input class="form-control" type="text"/></td></tr>');
-                                
+                            if(diferencia>0){
+                                for( var j=0;j<diferencia;j++){
+                                    $( "#serenazgosNew" ).find('tbody').append('<tr><td><input class="form-control" type="text" maxlength="7"/></td></tr>');
+
+                                }
+                            } else {
+                                diferencia=diferencia*-1;
+                                for( var j=0;j<diferencia;j++){
+                                    $('#serenazgosNew tr:last').remove();
+                                }
                             }
-                            
                             
                         });
                         $('#policeNew').modal('show');
@@ -152,11 +165,14 @@
             google.maps.event.addDomListener(window, 'load', initialize);
 
         </script>
+        
+        
 
 
     </head>
 
     <body>
+        <jsp:include page="nav.jsp"/>
         <div class="container">
         <h1>Comisarias</h1>
         
