@@ -14,6 +14,7 @@ import model.pojo.Delito;
  */
 public interface IDelito {
     List<Delito> getAll();
+    List<Delito> getAllSurquillo();
     int save(Delito d);
     void update(Delito d);
     void delete(int id);

@@ -7,6 +7,7 @@ package controller;
 
 import algoritmo.Mapa;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.dao.IDelito;
@@ -36,12 +37,13 @@ public class IndexController {
     IDelito delitoService = DelitoImpl.getInstance();
     ITurno turnoService = TurnoImpl.getInstance();
     Mapa mapa= null;
-
+    
     @RequestMapping(value = "/delitos", method = RequestMethod.GET)
     public String cargar(Model model) {
         model.addAttribute("delito", new Delito());
         model.addAttribute("tipodelitoLst", this.tipodelitoService.getAll());
         model.addAttribute("delitoLst", this.delitoService.getAll());
+         //model.addAttribute("delitoLst", this.delitoService.getAll());
         model.addAttribute("turnoLst", this.turnoService.getAll());
         /*limites de lima metropolitana*/
         double NELat=-11.805910334098213;

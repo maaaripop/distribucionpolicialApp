@@ -65,7 +65,7 @@
                     marker = new google.maps.Marker({
                         position: new google.maps.LatLng(lstDelitos[i][1], lstDelitos[i][2]),
                         map: map,
-                        title: lstDelitos[i][3]
+                        title:  lstDelitos[i][3]
                     });
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
                         return function () {

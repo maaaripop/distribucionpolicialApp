@@ -58,6 +58,29 @@ public class DelitoImpl implements IDelito{
         return lst;
     }
 
+    public List<Delito> getAllSurquillo() {
+        List<Delito> lst = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            String hql = "from Delito where idDelito in (1,9,10,11,13,14,15,16,17,19)";
+            Query query = session.createQuery(hql);
+            lst = query.list();
+                       
+            for (Delito del : lst) {
+                Hibernate.initialize(del.getTurno());
+                Hibernate.initialize(del.getTipodelito());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (!HibernateUtil.getSessionFactory().isClosed() || session != null) {
+                session.close();
+            }
+        }
+
+        return lst;
+    }
     @Override
     public int save(Delito td) {
 

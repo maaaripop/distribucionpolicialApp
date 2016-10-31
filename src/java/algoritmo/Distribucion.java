@@ -76,7 +76,7 @@ public class Distribucion {
     public double beta=0;
     public double tau=0;
     LongLatService longLatService = new LongLatService();
-    public int idTurno=0;
+    public int idTurno=1;
     public int idDistrito=26;//surquillo
     public int idComisaria=1;
     ArrayList<int[]> bloquesDelitos =null;
@@ -140,6 +140,16 @@ public class Distribucion {
                 }
             }
         }
+       
+        distritoxbloquelst= (ArrayList<Distritoxbloque>)distritoxbloqueService.getAll();
+        bloquelst= (ArrayList<Distritoxbloque>)distritoxbloqueService.queryByIdDistrito(idDistrito);
+        if(distritoxbloquelst.size()==0){
+            obtenerDistritos();
+            // tiene un limite de consultas al servicio google map
+            distritoxbloquelst= (ArrayList<Distritoxbloque>)distritoxbloqueService.getAll();
+        }
+        poblarBloques();
+        
         poblarDelitos();
         //latLng  = new double[cantH+1][cantV+1][2];
         delitosForecast = new double [mapa.cantH][mapa.cantV][3];
@@ -151,16 +161,8 @@ public class Distribucion {
             }
         }
         forecasting();
-        distritoxbloquelst= (ArrayList<Distritoxbloque>)distritoxbloqueService.getAll();
-        bloquelst= (ArrayList<Distritoxbloque>)distritoxbloqueService.queryByIdDistrito(idDistrito);
-        if(distritoxbloquelst.size()==0){
-            obtenerDistritos();
-            // tiene un limite de consultas al servicio google map
-            distritoxbloquelst= (ArrayList<Distritoxbloque>)distritoxbloqueService.getAll();
-        }
-        poblarBloques();
         obtenerDelitosDistritos();
-        ordenarDistritosXDelitos();
+        //ordenarDistritosXDelitos();
         imprimirDelitos();
         grasp(10,0.8);
         
@@ -175,10 +177,12 @@ public class Distribucion {
     }
     public void imprimirDelitos(){
         int i=0;
+        System.out.println("imprimir delitos");
+        int idTurnoMenos= this.idTurno-1;
         for(i=0;i<bloquesDelitos.size();i++){
             int coord[]= new int[2];
             coord=bloquesDelitos.get(i);
-            System.out.println("j " + coord[0] + "  i " + coord[1] +  " num delitos "  +delitosForecast[coord[0]][coord[1]][idTurno]);
+            System.out.println("j " + coord[0] + "  i " + coord[1] +  " num delitos "  +delitosForecast[coord[0]][coord[1]][idTurnoMenos]);
         }
     }
     public int buscarDistrito(int j, int i){
@@ -237,10 +241,10 @@ public class Distribucion {
     public void obtenerDelitosDistritos(){
         // inicializar
         int j,i=0;
-        
+        int idTurnoMenos=this.idTurno-1;
         for(j=0;j<mapa.cantH;j++){
             for(i=0;i<mapa.cantV;i++){
-                if(delitosForecast[j][i][idTurno]>0){
+                if(delitosForecast[j][i][idTurnoMenos]>0){
                     int id= distritos[j][i];
                     //System.out.println("idDistrito " + id  +" "+  j + " " + i );
                     if(id==idDistrito){
@@ -273,6 +277,7 @@ public class Distribucion {
         double costoAux=0;
         double delitos=0;
         double distancia=0;
+        int idTurnoMenos = this.idTurno-1;
         /*for(Distritoxbloque d: bloquelst){
             j=d.getJ();
             i=d.getI();
@@ -285,7 +290,7 @@ public class Distribucion {
         for(int[] d: bloquelstSol){
             j=d[0];
             i=d[1];
-            delitos=delitosForecast[j][i][idTurno];
+            delitos=delitosForecast[j][i][idTurnoMenos];
             distancia=mapa.distanciaCoord(mapa.latLng[j][i][0], mapa.latLng[j][i][1], comisaria.getLatitud(), comisaria.getLongitud());
             costoAux=delitos/distancia;
             costo=costo+costoAux;
@@ -384,11 +389,14 @@ public class Distribucion {
             vehiculoxcomisariaAux.add(v);
         }
         int cantDelitos=bloques.size();
+        System.out.println("cantDelitos : " + cantDelitos);
         int cantVehiculo= vehiculoxcomisariaAux.size();
         while( cantDelitos!=0 && (quedaVehiculos() || quedaVehiculosSerenazgo())){
             placa=buscarVehiculo();
+            System.out.println("placa : " + placa);
             inicializar();
             ArrayList<int[]> bloquesLCR = obtenerLCR(alpha);
+           
             int random= (int) (Math.random()*bloquesLCR.size());
             int delito[] =  bloquesLCR.get(random);
             eliminarBloque(delito[0],delito[1]);
@@ -424,6 +432,7 @@ public class Distribucion {
         int y=0;
         for(int[] bloque: bloques){
             if(bloque[0]==j && bloque[1]==i){
+                
                 bloques.remove(y);
                 return;
             }
@@ -435,6 +444,7 @@ public class Distribucion {
         // eliminar el vehiculo seleccionado
         String placa=null;
         int cantVehiculo=vehiculoxcomisariaAux.size();
+        
         int random= (int) (Math.random()*vehiculoxcomisariaAux.size());
         boolean hayPatrullas = quedaVehiculos();
         while(hayPatrullas && !(vehiculoxcomisariaAux.get(random).getVehiculo().getTipovehiculo().getIdtipoVehiculo()==1)){
@@ -461,10 +471,11 @@ public class Distribucion {
         double distancia;
         double delitos;
         double costoAux;
-        for( int[] bloque : bloquesDelitos){
+        int idTurnoMenos=this.idTurno-1;
+        for( int[] bloque : bloques){
             j=bloque[0];
             i=bloque[1];
-            delitos=delitosForecast[j][i][idTurno];
+            delitos=delitosForecast[j][i][idTurnoMenos];
             distancia=mapa.distanciaCoord(mapa.latLng[j][i][0], mapa.latLng[j][i][1], comisaria.getLatitud(), comisaria.getLongitud());
             costoAux=delitos/distancia;
             if(costoAux>0){
@@ -493,12 +504,13 @@ public class Distribucion {
         ArrayList<int[]> bloquesLCR =new ArrayList<int[]>();
         double costoAux,delitos,distancia = 0;
         int j,i=0;
+        int idTurnoMenos=this.idTurno-1;
         //min peor valor tau
         //maxima mejor valor beta
-        for( int[] bloque : bloquesDelitos){
+        for( int[] bloque : bloques){
             j=bloque[0];
             i=bloque[1];
-            delitos=delitosForecast[j][i][idTurno];
+            delitos=delitosForecast[j][i][idTurnoMenos];
             distancia=mapa.distanciaCoord(mapa.latLng[j][i][0], mapa.latLng[j][i][1], comisaria.getLatitud(), comisaria.getLongitud());
             costoAux=delitos/distancia;      
 
@@ -554,7 +566,7 @@ public class Distribucion {
         Date fechaHoy = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(fechaHoy);
-        int mesHoy = cal.get(Calendar.MONTH)+1;
+        int mesHoy = cal.get(Calendar.MONTH)+2;
         int anhoHoy= cal.get(Calendar.YEAR);
         int cantAnho=cantMesesTotal/12;
         int cantMesesRestantes= cantMesesTotal%12;
@@ -569,6 +581,7 @@ public class Distribucion {
         }
         int codmes=anho*100+mes;
         fechasPeriodo[0]=codmes;
+        System.out.println(fechasPeriodo[0]);
         for(int i=1;i<cantPeriodo;i++){
             if(mes+cantMeses<=12){//12+6 = 18
                 mes=mes+cantMeses;
@@ -579,7 +592,7 @@ public class Distribucion {
                 anho=anho+1;
                 fechasPeriodo[i]=anho*100+mes;
             }
-            
+            System.out.println(fechasPeriodo[i]);
         }
     }
     public ArrayList<String> limpiarDuplicados(ArrayList<String> cadenas){
@@ -591,7 +604,7 @@ public class Distribucion {
     }
     public void poblarDelitos(){
         for ( Delito d : delitolst ) {
-                int idTurno = d.getTurno().getIdTurno()-1;
+            int idTurno = d.getTurno().getIdTurno();
             double [] coord = {d.getLatitud(),d.getLongitud()} ;
             double [] coordIntermedia= {coord[0],mapa.NW[1]};
             /*distanciaV
@@ -603,11 +616,29 @@ public class Distribucion {
             int distanciaH=(int) mapa.distanciaCoord(mapa.NW[0], mapa.NW[1], coordIntermedia[0], coordIntermedia[1]);
             int distanciaV=(int) mapa.distanciaCoord(coordIntermedia[0], coordIntermedia[1],coord[0],coord[1]);
             int numPeriodo=buscarPeriodoPorDelito(d.getFecha());
-            if(numPeriodo!=-1){
-                delitos[distanciaH][distanciaV][numPeriodo][idTurno]=delitos[distanciaH][distanciaV][numPeriodo][idTurno]+1;
-                System.out.println("periodo: " +numPeriodo + " Lat: " + d.getLatitud() + " Long: " + d.getLongitud() +" " + distanciaH--+ " " + distanciaV-- +"" );
-                // aumento la cantidad de delitos en ese cuadrado
+            int id= distritos[distanciaH][distanciaV];
+                
+            if(id==this.idDistrito){
+                
+                System.out.println("Delito:  " + d.getIdDelito());
+                System.out.println(" fecha: " + d.getFecha() + "distrito " + id + " periodo: " +numPeriodo + " turno: " + idTurno +" lat: " + d.getLatitud() + " long: " + d.getLongitud() + " " + distanciaH+ " " + distanciaV ); 
+            
+                
+                if(numPeriodo!=-1 && id==this.idDistrito){
+
+                    //System.out.println("periodo: " +numPeriodo + " Lat: " + d.getLatitud() + " Long: " + d.getLongitud() +" " + distanciaH--+ " " + distanciaV-- +"" );
+                    if (idTurno==this.idTurno) {
+
+                        idTurno--;
+                        int cantDelitos=delitos[distanciaH][distanciaV][numPeriodo][idTurno];
+                        delitos[distanciaH][distanciaV][numPeriodo][idTurno]=cantDelitos+1;
+                        System.out.println(" fecha: " + d.getFecha() + " periodo: " +numPeriodo + " turno: " + this.idTurno +" " + distanciaH+ " " + distanciaV +" numDelitos: "+ delitos[distanciaH][distanciaV][numPeriodo][idTurno]); 
+                    }
+                    // aumento la cantidad de delitos en ese cuadrado
+                }
+                
             }
+                
         }
     }
     public int buscarPeriodoPorDelito(Date fecha){
@@ -650,8 +681,10 @@ public class Distribucion {
                         //if(delitos[j][i][k][l]>0) System.out.println("Periodo: "+ k + ","+ i + " " + j+ " Mayor a cero");
                         delitosForecast[j][i][l]=(delitos[j][i][k-1][l])*smoothFactor+(delitosForecast[j][i][l])*(1-smoothFactor);
                     }
-                    
-                    if(delitosForecast[j][i][l]>0) System.out.println("Forecast " + i + " " + j+ "Turno " + l +" Mayor a cero");
+                    int idTurnoMenos=this.idTurno-1;
+                    if(delitosForecast[j][i][l]>0 && l==idTurnoMenos) {
+                        System.out.println("Forecast: " + i + " " + j+ " Turno: " + this.idTurno + " predDelitos " +delitosForecast[j][i][l]);
+                    }
                 }
             }
         }
